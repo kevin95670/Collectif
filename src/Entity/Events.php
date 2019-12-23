@@ -42,11 +42,6 @@ class Events
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $category;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $city;
 
     /**
@@ -64,9 +59,15 @@ class Events
      */
     private $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Categories", mappedBy="belonging")
+     */
+    private $categories;
+
     public function __construct()
     {
         $this->id_user = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,18 +137,6 @@ class Events
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getCity(): ?string
     {
         return $this->city;
@@ -192,6 +181,34 @@ class Events
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Categories[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categories $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->addBelonging($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            $category->removeBelonging($this);
+        }
 
         return $this;
     }

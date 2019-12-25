@@ -9,6 +9,7 @@ use Faker;
 
 class FakerCategories extends Fixture
 {
+
     public function load(ObjectManager $manager)
     {
 

@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Evènements{% endblock %}
 
-{% block body_id 'index' %}
+{% block body_id 'events' %}
 
 {% block body %}
 
@@ -19,17 +19,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h2>{{nbEvent}} évènements ont déjà été crée !</h2>
+				<h2>Evènements ont déjà été crée !</h2>
 				<input type="date" id="start" name="trip-start"
 			       value="2018-07-22"
 			       min="2018-01-01" max="2018-12-31">
 		       	<input type="text" id="name" name="name" required
        			minlength="4" maxlength="8" size="10">
 				<ul>
-				{% for item in nbEventByCategory %}
-					<li>{{item.number ~ ' - ' ~ item.name}}</li>
-				{% endfor %}
-				</ul>
 			</div>
 		</div>
 	</div>

@@ -1,5 +1,56 @@
-$mainColor : #666;
+$mainColor : #0E75BF;
+$colorBG : #777777;
 
+/* Reset */
+
+html,
 body {
-    background-color: $mainColor;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+body{
+	background: $colorBG;
+}
+
+
+.relative{
+	position: relative;
+}
+
+.absolute{
+	position: absolute;
+}
+
+.flex{
+	display: flex;
+}
+
+.align-center{
+	align-items: center;
+}
+
+.w100{
+	width: 100%;
+}
+
+/* Header */
+
+header{
+	background: $mainColor;
+}
+
+/* Footer */
+
+footer{
+	padding: 15px 10px;
+	background: $mainColor;
+	bottom: 0;
+
+	p{
+		margin-bottom: 0;
+	}
+}
+
+

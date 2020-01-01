@@ -15,7 +15,7 @@
     {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
-<body>
+<body class="relative">
 <header>
     {% block header %}
         {% include 'includes/_header.html.twig' %}
@@ -23,11 +23,13 @@
 </header>
 
 <main id="{% block body_id '' %}">
+    {% block filters %}
+    {% endblock %}
     {% block body %}
     {% endblock %}
 </main>
 
-<footer>
+<footer class="absolute w100">
     {% block footer %}
         {% include 'includes/_footer.html.twig' %}
     {% endblock %}

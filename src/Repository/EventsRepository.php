@@ -47,4 +47,43 @@ class EventsRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getNbEvents()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e)')
+            ->getQuery()
+            ->getSingleScalarResult();
+            ;
+    }
+
+    public function getEventByCategories()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e) as number','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->groupBy('c.name')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getEventsByCategory($category)
+    {
+        
+    }
+
+    public function getEventsByDate($date)
+    {
+        
+    }
+
+    public function getEventsByCity($city)
+    {
+        
+    }
+
+    public function getAllEvents()
+    {
+        
+    }
 }

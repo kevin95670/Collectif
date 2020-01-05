@@ -57,7 +57,7 @@ class EventsRepository extends ServiceEntityRepository
             ;
     }
 
-    public function getEventByCategories()
+    public function getEventsGroupByCategories()
     {
         return $this->createQueryBuilder('e')
             ->select('count(e) as number','c.name')
@@ -67,9 +67,17 @@ class EventsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getEventsByCategory($category)
+    public function getAllEventsOfCategory($category)
     {
-        
+        return $this->createQueryBuilder('e')
+            ->select('e','count(u) as participant','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->leftJoin('e.id_user', 'u')
+            ->where('c.name = :categorie')
+            ->setParameter('categorie', $category)
+            ->groupBy('e.id')
+            ->getQuery()
+            ->getResult();
     }
 
     public function getEventsByDate($date)
@@ -84,6 +92,12 @@ class EventsRepository extends ServiceEntityRepository
 
     public function getAllEvents()
     {
-        
+        return $this->createQueryBuilder('e')
+            ->select('e','count(u) as participant','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->leftJoin('e.id_user', 'u')
+            ->groupBy('e.id')
+            ->getQuery()
+            ->getResult();
     }
 }

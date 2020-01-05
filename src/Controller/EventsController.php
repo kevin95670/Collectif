@@ -15,17 +15,24 @@ class EventsController extends AbstractController
      */
     public function showAll(EventsRepository $eventsRepository)
     {
+        $allEvents = $eventsRepository->getAllEvents();
 
-        return $this->render('events/events.html.twig');
+
+        return $this->render('events/events.html.twig',[
+            'events' => $allEvents
+        ]);
     }
 
     /**
-     * @Route("/events/category/{id}", name="events_category")
+     * @Route("/events/{category}", name="events_category")
      */
-    public function showByCategory(EventsRepository $eventsRepository)
+    public function showByCategory(EventsRepository $eventsRepository, $category)
     {
+        $eventsOfThisCategory = $eventsRepository->getAllEventsOfCategory($category);
 
-        return $this->render('events/events.html.twig');
+        return $this->render('events/events.html.twig',[            
+            'events' => $eventsOfThisCategory
+        ]);
     }
 
     /**

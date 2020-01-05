@@ -15,11 +15,11 @@ class IndexController extends AbstractController
      */
     public function index(EventsRepository $eventsRepository)
     {
-    	$nbEventByCategory = $eventsRepository->getEventByCategories();
+    	$nbEventByCategory = $eventsRepository->getEventsGroupByCategories();
 
         return $this->render('index/index.html.twig',[
         	'nbEvent' => $eventsRepository->getNbEvents(),
-        	'nbEventByCategory' => $nbEventByCategory
+        	'nbEventByCategory' => $nbEventByCategory,
         ]);
     }
 }

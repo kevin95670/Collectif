@@ -27,7 +27,7 @@
        			minlength="4" maxlength="8" size="10">
 				<ul>
 				{% for item in nbEventByCategory %}
-					<li>{{item.number ~ ' - ' ~ item.name}}</li>
+					<li><a href="{{ path('events_category', {category: item.name})}}">{{item.number ~ ' - ' ~ item.name}}</a></li>
 				{% endfor %}
 				</ul>
 			</div>

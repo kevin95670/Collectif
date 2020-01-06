@@ -57,6 +57,30 @@ class EventsRepository extends ServiceEntityRepository
             ;
     }
 
+    public function getNbEventsAtDate($date)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e) as number','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->where('e.date = :date')
+            ->setParameter('date', $date)
+            ->groupBy('c.name')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getNbEventsWithThisCity($city)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e) as number','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->where('e.city = :city')
+            ->setParameter('city', $city)
+            ->groupBy('c.name')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getEventsGroupByCategories()
     {
         return $this->createQueryBuilder('e')
@@ -80,14 +104,30 @@ class EventsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getEventsByDate($date)
+    public function getAllEventsByDate($date)
     {
-        
+        return $this->createQueryBuilder('e')
+            ->select('e','count(u) as participant','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->leftJoin('e.id_user', 'u')
+            ->where('e.date = :date')
+            ->setParameter('date', $date)
+            ->groupBy('e.id')
+            ->getQuery()
+            ->getResult();
     }
 
-    public function getEventsByCity($city)
+    public function getAllEventsOfCity($city)
     {
-        
+        return $this->createQueryBuilder('e')
+            ->select('e','count(u) as participant','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->leftJoin('e.id_user', 'u')
+            ->where('e.city = :city')
+            ->setParameter('city', $city)
+            ->groupBy('e.id')
+            ->getQuery()
+            ->getResult();
     }
 
     public function getAllEvents()
@@ -100,4 +140,15 @@ class EventsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getUserParticipations()
+    {
+
+    }
+
+    public function getSingleEvent($id)
+    {
+        
+    }
+
 }

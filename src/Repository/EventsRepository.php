@@ -141,14 +141,29 @@ class EventsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getUserParticipations()
+    public function getUserParticipations($user_id)
     {
-
+        return $this->createQueryBuilder('e')
+            ->select('e','count(u) as participant','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->leftJoin('e.id_user', 'u')
+            ->where('u.id = :user')
+            ->setParameter('user', $user_id)
+            ->groupBy('e.id')
+            ->getQuery()
+            ->getResult();
     }
 
-    public function getSingleEvent($id)
+    public function getSingleEvent($event_id)
     {
-        
+        return $this->createQueryBuilder('e')
+            ->select('e','count(u) as participant','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->leftJoin('e.id_user', 'u')
+            ->where('e.id = :event')
+            ->setParameter('event', $event_id)
+            ->getQuery()
+            ->getResult();
     }
 
 }

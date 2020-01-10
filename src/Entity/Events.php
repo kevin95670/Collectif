@@ -19,17 +19,6 @@ class Events
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Users", inversedBy="events")
-     */
-    private $id_user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="creations")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $createur;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -64,53 +53,26 @@ class Events
      */
     private $categories;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="events")
+     */
+    private $id_users;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="creations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $creator;
+
     public function __construct()
     {
-        $this->id_user = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->id_users = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Users[]
-     */
-    public function getIdUser(): Collection
-    {
-        return $this->id_user;
-    }
-
-    public function addIdUser(Users $idUser): self
-    {
-        if (!$this->id_user->contains($idUser)) {
-            $this->id_user[] = $idUser;
-        }
-
-        return $this;
-    }
-
-    public function removeIdUser(Users $idUser): self
-    {
-        if ($this->id_user->contains($idUser)) {
-            $this->id_user->removeElement($idUser);
-        }
-
-        return $this;
-    }
-
-    public function getCreateur(): ?Users
-    {
-        return $this->createur;
-    }
-
-    public function setCreateur(?Users $createur): self
-    {
-        $this->createur = $createur;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -209,6 +171,46 @@ class Events
             $this->categories->removeElement($category);
             $category->removeBelonging($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getIdUsers(): Collection
+    {
+        return $this->id_users;
+    }
+
+    public function addIdUser(User $idUser): self
+    {
+        if (!$this->id_users->contains($idUser)) {
+            $this->id_users[] = $idUser;
+            $idUser->addEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdUser(User $idUser): self
+    {
+        if ($this->id_users->contains($idUser)) {
+            $this->id_users->removeElement($idUser);
+            $idUser->removeEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
 
         return $this;
     }

@@ -20,7 +20,7 @@ class FakerEvents extends Fixture implements DependentFixtureInterface
         // on créé 100 events
         for ($i = 0; $i < 100; $i++) {
             $event = new Events();
-            $event->setCreateur($this->getReference(FakerUsers::Users_Event_reference.'_'.rand(0,49)));
+            $event->setCreator($this->getReference(FakerUsers::Users_Event_reference.'_'.rand(0,49)));
             $event->setName($faker->word);
             $event->setDate($faker->dateTime($max = 'now', $timezone = null));
             $event->setCity($faker->city);

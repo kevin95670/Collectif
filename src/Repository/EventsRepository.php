@@ -59,11 +59,15 @@ class EventsRepository extends ServiceEntityRepository
 
     public function getNbEventsAtDate($date)
     {
+        $from = $date." 00:00:00";
+        $to   = $date." 23:59:59";
+
         return $this->createQueryBuilder('e')
             ->select('count(e) as number','c.name')
             ->leftJoin('e.categories', 'c')
-            ->where('e.date = :date')
-            ->setParameter('date', $date)
+            ->where('e.date BETWEEN :from and :to')
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
             ->groupBy('c.name')
             ->getQuery()
             ->getResult();
@@ -106,12 +110,16 @@ class EventsRepository extends ServiceEntityRepository
 
     public function getAllEventsByDate($date)
     {
+        $from = $date." 00:00:00";
+        $to   = $date." 23:59:59";
+
         return $this->createQueryBuilder('e')
             ->select('e','count(u) as participant','c.name')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_user', 'u')
-            ->where('e.date = :date')
-            ->setParameter('date', $date)
+            ->where('e.date BETWEEN :from and :to')
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
             ->groupBy('e.id')
             ->getQuery()
             ->getResult();

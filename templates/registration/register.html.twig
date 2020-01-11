@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body_id 'inscription' %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {{ form_row(form.surname) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.password.first) }}
+    {{ form_row(form.password.second) }}
+
+    <button type="submit">Register!</button>
+{{ form_end(form) }}
+
+{% endblock %}

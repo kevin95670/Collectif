@@ -34,13 +34,4 @@ class EventsController extends AbstractController
             'events' => $eventsOfThisCategory
         ]);
     }
-
-    /**
-     * @Route("/create/event", name="new-event")
-     */
-    public function new(EventsRepository $eventsRepository)
-    {
-
-        return $this->render('events/events.html.twig');
-    }
 }

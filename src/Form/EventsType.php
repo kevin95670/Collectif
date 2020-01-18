@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class EventType extends AbstractType
+class EventsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

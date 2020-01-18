@@ -1,11 +1,3 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Créer évènement{% endblock %}
-
-{% block body_id 'create-event' %}
-
-{% block body %}
-
 {{ form_start(form) }}
     {{ form_row(form.name) }}
     {{ form_row(form.date) }}
@@ -17,5 +9,3 @@
 
     <button type="submit">Créer évènement</button>
 {{ form_end(form) }}
-
-{% endblock %}

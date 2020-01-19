@@ -80,8 +80,11 @@ class EventsController extends AbstractController
     /**
      * @Route("/event/{id}", name="show_event", methods={"GET"})
      */
-    public function show(Events $event): Response
+    public function show(EventsRepository $eventsRepository, $id): Response
     {
+        $event = $eventsRepository->getSingleEvent($id);
+
+
         return $this->render('events/show.html.twig', [
             'event' => $event,
         ]);
@@ -98,7 +101,7 @@ class EventsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('events_index');
+            return $this->redirectToRoute('index');
         }
 
         return $this->render('events/edit.html.twig', [
@@ -118,6 +121,6 @@ class EventsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('events_index');
+        return $this->redirectToRoute('index');
     }
 }

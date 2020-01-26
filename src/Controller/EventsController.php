@@ -55,11 +55,15 @@ class EventsController extends AbstractController
 
             $user = $this->getUser();
             $event->setCreator($user);
+            $event->addIdUser($user);
+            
             $categories = $form->get('categories')->getData();
             for ($i=0; $i < count($categories); $i++) { 
                 $event->addCategory($categories[$i]);
                 $categories[$i]->addBelonging($event);
             }
+
+            $user->addEvent($event);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);

@@ -15,7 +15,10 @@ class ParticipationsController extends AbstractController
      */
     public function showParticipations(EventsRepository $eventsRepository)
     {
+    	$participations = $eventsRepository->getUserParticipations($this->getUser());
 
-        return $this->render('participations/participations.html.twig');
+        return $this->render('participations/participations.html.twig',[
+        	'events' => $participations
+        ]);
     }
 }

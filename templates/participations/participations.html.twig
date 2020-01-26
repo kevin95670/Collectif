@@ -6,28 +6,39 @@
 
 {% block body %}
 
-	<div class="container">
-		<div class="row">
-			<div class="col">
-			<p>Collectif est un site qui permet de trouver des events</p>
-			<a href="">Inscription</a>
-			<p>Déjà encore inscrit ? <a href="">Connectez-vous</a></p>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+            {% block aside %}
+                <label for="date">Date :</label>
+                <input type="date" id="date" name="date">
 
-	<div class="container">
-		<div class="row">
-			<div class="col">
-				<h2>Evènements ont déjà été crée !</h2>
-				<input type="date" id="start" name="trip-start"
-			       value="2018-07-22"
-			       min="2018-01-01" max="2018-12-31">
-		       	<input type="text" id="name" name="name" required
-       			minlength="4" maxlength="8" size="10">
-				<ul>
-			</div>
-		</div>
-	</div>
+                <label for="ville">Ville :</label>
+                <input type="text" id="ville" name="ville">
+
+                <label for="categorie">Catégorie :</label>
+                <input type="text" id="categorie" name="categorie">
+            {% endblock %}
+            </div>
+            <div class="col-sm-9">
+                {% for event in events %}
+                    <h2>{{event[0].name}}</h2>
+                    {% if event[0].urlImage is not null %}
+                        <img src="{{event[0].urlImage}}" alt="évènement-{{event[0].id}}" />
+                    {% endif %}
+                    <p>Date : {{event[0].date|date("d-m-y")}} à {{event[0].date|date("H:m:s")}}</p>
+                    <p>Participant : {{event.participant}} / {{event[0].nbParticipant}}</p>
+                    <p>Ville : {{event[0].city}}</p>
+                    <p>Catégorie : {{event.name}}</p>
+                    {% if event.participant  != event[0].nbParticipant%}
+                        <a href="#">Rejoindre cet évènement</a>
+                    {% endif %}
+                    <a href="{{ path('show_event', {'id': event[0].id}) }}">show</a>
+                    <a href="{{ path('edit_event', {'id': event[0].id}) }}">edit</a>
+                    {% include('events/_delete_form.html.twig') with {'event_id': event[0].id} %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

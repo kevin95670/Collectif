@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Events{% endblock %}
+{% block title %}Nouvel évènement{% endblock %}
+
+{% block body_id 'new-event' %}
 
 {% block body %}
-    <h1>Create new Events</h1>
+	<div class="container">
+	    <h1 class="text-center mb-5">Créer un nouvel évènement</h1>
 
-    {{ include('events/_form.html.twig') }}
+	    {{ include('events/_form.html.twig') }}
 
-    <a href="{{ path('events') }}">back to list</a>
+	    <a href="{{ path('events') }}">Liste des évènements</a>
+	</div>
 {% endblock %}

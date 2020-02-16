@@ -6,32 +6,31 @@
 
 {% block body %}
 
-	<div class="container">
+	<div class="container index-intro mbsm">
 		<div class="row">
 			<div class="col">
-			<p>Collectif est un site qui permet de trouver des events</p>
-			<a href="">Inscription</a>
-			<p>Déjà encore inscrit ? <a href="">Connectez-vous</a></p>
+			<h1>Tu galères à trouver quoi faire pendant ton temps libre ?</h1>
+			<p>Collectif est un site qui permet de trouver des évènements partout autour de chez toi !</p>
+			<a href="{{ path('user_registration')}}" class="btn btn-success mbxs">Inscription</a>
+			<p>Pas encore inscrit ? <a href="{{ path('app_login')}}" class="index-connexion">Connectez-vous</a></p>
 			</div>
 		</div>
 	</div>
 
 	<div class="container">
-		<div class="row">
-			<div class="col">
-				<h2>{{nbEvent}} évènements ont déjà été crée !</h2>
-				<input type="date" id="start" name="trip-start"
-			       value="2018-07-22"
-			       min="2018-01-01" max="2018-12-31">
-		       	<input type="text" id="name" name="name" required
-       			minlength="4" maxlength="8" size="10">
-				<ul>
-				{% for item in nbEventByCategory %}
-					<li><a href="{{ path('events_category', {category: item.name})}}">{{item.number ~ ' - ' ~ item.name}}</a></li>
-				{% endfor %}
-				</ul>
+		<h2 class="text-center">{{nbEvent}} évènements ont déjà été crée !</h2>
+		<input class="mbsm mtsm form-control mx-auto" type="date" id="start" name="trip-start"
+	       value="2018-07-22"
+	       min="2018-01-01" max="2018-12-31">
+       	<input class="mbsm form-control mx-auto" type="text" id="name" name="name" required
+			minlength="4" maxlength="8" size="10" placeholder="Paris">
+		<ul class="index-categories row">
+		{% for item in nbEventByCategory %}
+			<div class="col-sm-4 col-xs-6">
+			<li class="mb-4"><a class="w-100 btn {% if loop.index0 is odd %}btn-primary {% else %} btn-success {% endif %}" href="{{ path('events_category', {category: item.name})}}">{{item.number ~ ' - ' ~ item.name}}</a></li>
 			</div>
-		</div>
+		{% endfor %}
+		</ul>
 	</div>
 
 {% endblock %}

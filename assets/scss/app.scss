@@ -1,11 +1,19 @@
 $mainColor : #0E75BF;
-$colorBG : #777777;
+$colorBG : #f1f2f3;
+$colorLinkHover: #1411a0;
+$colorText: #fff;
+$black: #000;
 
 /* Reset */
 
+* {
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+}
+
 html,
 body {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -14,13 +22,13 @@ body{
 	background: $colorBG;
 }
 
-
-.relative{
-	position: relative;
+main{
+	padding-bottom: 100px;
 }
 
-.absolute{
-	position: absolute;
+a:hover{
+	text-decoration: none;
+	color: $colorText;
 }
 
 .flex{
@@ -31,11 +39,31 @@ body{
 	align-items: center;
 }
 
-.w100{
-	width: 100%;
+.mbsm{
+	margin-bottom: 40px;
+}
+
+.mtsm{
+	margin-top: 40px;
+}
+
+.mbxl{
+	margin-bottom: 80px;
+}
+
+.mbxs{
+	margin-bottom: 20px;
 }
 
 /* Header */
+
+a.navbar-brand{
+	padding: 0;
+}
+
+.logo{
+	width: 100px;
+}
 
 header{
 	background: $mainColor;
@@ -50,6 +78,103 @@ footer{
 
 	p{
 		margin-bottom: 0;
+	}
+}
+
+/* Index */
+
+.index-intro{
+	border: 1px solid #ddd;
+	-webkit-box-shadow: 0px 1px 15px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 1px 15px 0px rgba(0, 0, 0, 0.1);
+	background: $colorText;
+	padding: 3rem;
+	border-radius: 5px;
+}
+
+.index-connexion{
+	&:hover{
+		text-decoration: underline;
+		color: $colorLinkHover;
+	}
+}
+
+.index-categories{
+	padding: 0;
+	list-style: none;
+	& li {
+		& a{
+			padding: 30px 5px;
+			color: $colorText;
+		}
+	}
+}
+
+#index{
+	input{
+		width: 25%;
+	}
+}
+
+#inscription, #new-event{
+
+	input,select,textarea{
+		height: calc(1.5em + .75rem + 2px);
+		padding: .375rem .75rem;
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.5;
+		color:#495057;
+		background-color:#fff;
+		background-clip: padding-box;
+		border: 1px solid#ced4da;
+		border-radius: .25rem;
+		transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	}
+
+	input,textarea{
+		display: block;
+		width: 100%;
+	}
+
+	textarea{
+		height: 100%;
+	}
+
+	.categories{
+		label, input{
+			display: inline-block;
+			height: inherit;
+			width: inherit;
+		}
+	}
+
+}
+
+#new-event{
+	.date{
+		#events_date{
+			#events_date_date,#events_date_time{
+				display: inline-block;
+			}
+
+			#events_date_date{
+				margin-right: 10px;
+			}
+
+			#events_date_time{
+				select{
+					margin-right: 5px;
+					margin-left: 5px;
+					&:first-child{
+						margin-left: 0;
+					}
+					&:last-child{
+						margin-right: 0;
+					}
+				}
+			}
+		}
 	}
 }
 

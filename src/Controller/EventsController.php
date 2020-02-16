@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Events;
 use App\Form\EventsType;
 use App\Repository\EventsRepository;
+use App\Repository\CategoriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,25 +21,29 @@ class EventsController extends AbstractController
     /**
      * @Route("/events", name="events")
      */
-    public function showAll(EventsRepository $eventsRepository)
+    public function showAll(EventsRepository $eventsRepository, CategoriesRepository $categoriesRepository)
     {
         $allEvents = $eventsRepository->getAllEvents();
+        $categories = $categoriesRepository->findAll();
 
 
         return $this->render('events/index.html.twig',[
-            'events' => $allEvents
+            'events' => $allEvents,
+            'categories' => $categories
         ]);
     }
 
     /**
      * @Route("/events/{category}", name="events_category")
      */
-    public function showByCategory(EventsRepository $eventsRepository, $category)
+    public function showByCategory(EventsRepository $eventsRepository, $category, CategoriesRepository $categoriesRepository)
     {
         $eventsOfThisCategory = $eventsRepository->getAllEventsOfCategory($category);
+        $categories = $categoriesRepository->findAll();
 
         return $this->render('events/index.html.twig',[            
-            'events' => $eventsOfThisCategory
+            'events' => $eventsOfThisCategory,
+            'categories' => $categories
         ]);
     }
 

@@ -42,19 +42,22 @@
                                 <p>Participant : {{event.participant}} / {{event[0].nbParticipant}}</p>
                                 <p>Ville : {{event[0].city}}</p>
                                 <p>Catégorie : {{event.name}}</p>
-                                {# {% if event.participant  != event[0].nbParticipant%}
+                                {#% if event.participant  != event[0].nbParticipant%}
                                     <a href="#">Rejoindre cet évènement</a>
-                                {% endif %} #}
+                                {% endif %}#}
                                 <a class="btn btn-primary mr-3" href="{{ path('show_event', {'id': event[0].id}) }}">Voir</a>
                                 <a class="btn btn-success mr-3" href="{{ path('edit_event', {'id': event[0].id}) }}">Modifier</a>
                                 {% include('events/_delete_form.html.twig') with {'event_id': event[0].id} %}
-                                {# <a href="{{ path('new_event') }}">Create new</a> #}
-                                {% if event[0].urlImage is not null %}
+                                {# <a href="{{ path('new_event') }}">Create new</a>#}
+                        {% if event[0].urlImage is not null %}
                             </div>
                         </div>
                         {% endif %}
                     </div>
                 {% endfor %}
+                <div class="navigation">
+                    {{ knp_pagination_render(events) }}
+                </div>
             </div>
         </div>
     </div>

@@ -104,8 +104,8 @@ class EventsRepository extends ServiceEntityRepository
             ->where('c.name = :categorie')
             ->setParameter('categorie', $category)
             ->groupBy('e.id')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+            //->getResult();
     }
 
     public function getAllEventsByDate($date)
@@ -121,8 +121,8 @@ class EventsRepository extends ServiceEntityRepository
             ->setParameter('from', $from)
             ->setParameter('to', $to)
             ->groupBy('e.id')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+            //->getResult();
     }
 
     public function getAllEventsOfCity($city)
@@ -134,8 +134,8 @@ class EventsRepository extends ServiceEntityRepository
             ->where('e.city = :city')
             ->setParameter('city', $city)
             ->groupBy('e.id')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+            //->getResult();
     }
 
     public function getAllEvents()
@@ -145,8 +145,8 @@ class EventsRepository extends ServiceEntityRepository
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
             ->groupBy('e.id')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+            //->getResult();
     }
 
     public function getUserParticipations($user_id)
@@ -158,8 +158,8 @@ class EventsRepository extends ServiceEntityRepository
             ->where('u.id = :user')
             ->setParameter('user', $user_id)
             ->groupBy('e.id')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+            //->getResult();
     }
 
     public function getSingleEvent($event_id)

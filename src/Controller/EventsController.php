@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @Route("/")
@@ -21,14 +22,20 @@ class EventsController extends AbstractController
     /**
      * @Route("/events", name="events")
      */
-    public function showAll(EventsRepository $eventsRepository, CategoriesRepository $categoriesRepository)
+    public function showAll(EventsRepository $eventsRepository, CategoriesRepository $categoriesRepository,PaginatorInterface $paginator,Request $request)
     {
-        $allEvents = $eventsRepository->getAllEvents();
+        $allEventsQuery = $eventsRepository->getAllEvents();
         $categories = $categoriesRepository->findAll();
+
+        $pagination = $paginator->paginate(
+            $allEventsQuery, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
 
 
         return $this->render('events/index.html.twig',[
-            'events' => $allEvents,
+            'events' => $pagination,
             'categories' => $categories
         ]);
     }
@@ -36,13 +43,18 @@ class EventsController extends AbstractController
     /**
      * @Route("/events/{category}", name="events_category")
      */
-    public function showByCategory(EventsRepository $eventsRepository, $category, CategoriesRepository $categoriesRepository)
+    public function showByCategory(EventsRepository $eventsRepository, $category, CategoriesRepository $categoriesRepository,PaginatorInterface $paginator,Request $request)
     {
-        $eventsOfThisCategory = $eventsRepository->getAllEventsOfCategory($category);
+        $eventsOfThisCategoryQuery = $eventsRepository->getAllEventsOfCategory($category);
         $categories = $categoriesRepository->findAll();
+        $pagination = $paginator->paginate(
+            $eventsOfThisCategoryQuery, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
 
         return $this->render('events/index.html.twig',[            
-            'events' => $eventsOfThisCategory,
+            'events' => $pagination,
             'categories' => $categories
         ]);
     }

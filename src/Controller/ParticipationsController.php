@@ -8,19 +8,26 @@ use App\Repository\EventsRepository;
 use App\Repository\CategoriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 class ParticipationsController extends AbstractController
 {
     /**
      * @Route("/participation", name="participations")
      */
-    public function showParticipations(EventsRepository $eventsRepository, CategoriesRepository $categoriesRepository)
+    public function showParticipations(EventsRepository $eventsRepository, CategoriesRepository $categoriesRepository, PaginatorInterface $paginator, Request $request)
     {
-    	$participations = $eventsRepository->getUserParticipations($this->getUser());
+    	$participationsQuery = $eventsRepository->getUserParticipations($this->getUser());
         $categories = $categoriesRepository->findAll();
+        $pagination = $paginator->paginate(
+            $participationsQuery, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            5 /*limit per page*/
+        );
 
         return $this->render('participations/participations.html.twig',[
-        	'events' => $participations,
+        	'events' => $pagination,
             'categories' => $categories
         ]);
     }

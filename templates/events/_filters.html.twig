@@ -1,0 +1,32 @@
+{{ form_start(filters) }}
+	<div class="form-row">
+		<div class="form-group col-md-6">
+    		{{ form_row(filters.query) }}
+    	</div>
+    </div>
+	<div class="form-row date">
+		<div class="form-group col-md-6">
+    		{{ form_row(filters.date) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-group col-md-6">
+    		{{ form_row(filters.city) }}
+    	</div>
+    </div>
+	<div class="form-row categories">
+		<div class="form-group col-md-6">
+				<label class="required">Catégories</label>
+			    {% for checkbox in filters.categories.children %}
+			        <div class="categorie">
+			            {{ form_widget(checkbox) }}
+			            {{ form_label(checkbox) }}
+			            {{ form_errors(checkbox) }}
+			        </div>
+			    {% endfor %}
+    	</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary d-block">Filtrer</button>
+
+{{ form_end(filters) }}

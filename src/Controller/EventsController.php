@@ -6,6 +6,8 @@ namespace App\Controller;
 
 use App\Entity\Events;
 use App\Form\EventsType;
+use App\Data\SearchData;
+use App\Form\SearchType;
 use App\Repository\EventsRepository;
 use App\Repository\CategoriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,8 +26,11 @@ class EventsController extends AbstractController
      */
     public function showAll(EventsRepository $eventsRepository, CategoriesRepository $categoriesRepository,PaginatorInterface $paginator,Request $request)
     {
-        $allEventsQuery = $eventsRepository->getAllEvents();
-        $categories = $categoriesRepository->findAll();
+        $data = new SearchData();
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+        $allEventsQuery = $eventsRepository->getAllEvents($data);
+        //$categories = $categoriesRepository->findAll();
 
         $pagination = $paginator->paginate(
             $allEventsQuery, /* query NOT result */
@@ -36,7 +41,8 @@ class EventsController extends AbstractController
 
         return $this->render('events/index.html.twig',[
             'events' => $pagination,
-            'categories' => $categories
+            //'categories' => $categories,
+            'filters' => $form->createView()
         ]);
     }
 
@@ -46,7 +52,7 @@ class EventsController extends AbstractController
     public function showByCategory(EventsRepository $eventsRepository, $category, CategoriesRepository $categoriesRepository,PaginatorInterface $paginator,Request $request)
     {
         $eventsOfThisCategoryQuery = $eventsRepository->getAllEventsOfCategory($category);
-        $categories = $categoriesRepository->findAll();
+        //$categories = $categoriesRepository->findAll();
         $pagination = $paginator->paginate(
             $eventsOfThisCategoryQuery, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/

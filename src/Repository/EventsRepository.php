@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Events;
+use App\Data\SearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -138,14 +139,45 @@ class EventsRepository extends ServiceEntityRepository
             //->getResult();
     }
 
-    public function getAllEvents()
+    public function getAllEvents(SearchData $search)
     {
-        return $this->createQueryBuilder('e')
+
+        $query = $this->createQueryBuilder('e')
             ->select('e','count(u) as participant','c.name')
             ->leftJoin('e.categories', 'c')
-            ->leftJoin('e.id_users', 'u')
-            ->groupBy('e.id')
-            ->getQuery();
+            ->leftJoin('e.id_users', 'u');
+
+            if(!empty($search->query)){
+                $query = $query
+                    ->where('e.name LIKE :query')
+                    ->setParameter('query', "%{$search->query}%");
+            }
+
+            if(!empty($search->city)){
+                $query = $query
+                    ->andWhere('e.city LIKE :city')
+                    ->setParameter('city', "%{$search->city}%");
+            }
+
+            if(!empty($search->date)){
+                $from = $search->date." 00:00:00";
+                $to   = $search->date." 23:59:59";
+                $query = $query
+                    ->andWhere('e.date BETWEEN :from and :to')
+                    ->setParameter('from', $from)
+                    ->setParameter('to', $to);
+            }
+
+            if(!empty($search->categories)){
+                $query = $query
+                    ->andWhere('c.id IN (:categories)')
+                    ->setParameter('categories', $search->categories);
+            }
+
+            $query = $query
+            ->groupBy('e.id');
+
+            return $query->getQuery();
             //->getResult();
     }
 

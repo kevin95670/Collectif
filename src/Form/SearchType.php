@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -28,15 +29,17 @@ class SearchType extends AbstractType{
     			'input_format' => 'Y-m-d' // ajouté en 4.3
     			])
             ->add('city', TextType::class, [
-            	'required' => false
+            	'required' => false,
             	])
             ->add('categories', EntityType::class, [
-        	'required' => false,
-            'class' => Categories::class,
-            'choice_label' => 'name',
-            'expanded' => true,
-            'multiple' => true,
-            ]);
+            	'required' => false,
+                'class' => Categories::class,
+                'choice_label' => 'name',
+                'expanded' => true,
+                'multiple' => true,
+                ])
+            ->remove('page');
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -44,7 +47,7 @@ class SearchType extends AbstractType{
         $resolver->setDefaults(array(
             'data_class' => SearchData::class,
             'method' => 'GET',
-            'crsf_protection' => false
+            'csrf_protection' => false
         ));
     }
 

@@ -1,0 +1,25 @@
+{% for event in events %}
+<div class="col-sm-6 col-xs-12" id="event-{{event[0].id}}">
+    <div class="card mb-3">
+        {% if event[0].urlImage is not null %}
+                <img class="card-img-top" src="{{event[0].urlImage}}" alt="évènement-{{event[0].id}}" />
+        {% endif %}
+        <div class="card-body">
+            <h2 class="card-title text-center">{{event[0].name}}</h2>
+            <p class="card-text">Date : {{event[0].date|date("d/m/Y")}} à {{event[0].date|date("H:m:s")}}</p>
+            <p class="card-text">Participant : {{event.participant}} / {{event[0].nbParticipant}}</p>
+            <p class="card-text">Ville : {{event[0].city}}</p>
+            <p class="card-text">Catégorie : {{event.name}}</p>
+            {#% if event.participant  != event[0].nbParticipant%}
+                <a href="#">Rejoindre cet évènement</a>
+            {% endif %}#}
+            <div class="text-center">
+                <a class="btn btn-primary mr-3 card-link" href="{{ path('show_event', {'id': event[0].id}) }}">Voir</a>
+                <a class="btn btn-success mr-3 card-link" href="{{ path('edit_event', {'id': event[0].id}) }}">Modifier</a>
+                {% include('events/_delete_form.html.twig') with {'event_id': event[0].id} %}
+                {# <a href="{{ path('new_event') }}">Create new</a>#}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

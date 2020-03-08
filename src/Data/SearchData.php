@@ -10,6 +10,11 @@ class SearchData{
 	public $query = '';
 
 	/**
+	* @var int 
+	*/
+	public $page = 1;
+
+	/**
 	* @var Categories[] 
 	*/
 	public $categories = [];

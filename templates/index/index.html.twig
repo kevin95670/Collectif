@@ -18,12 +18,7 @@
 	</div>
 
 	<div class="container">
-		<h2 class="text-center">{{nbEvent}} évènements ont déjà été crée !</h2>
-		<input class="mbsm mtsm form-control mx-auto" type="date" id="start" name="trip-start"
-	       value="2018-07-22"
-	       min="2018-01-01" max="2018-12-31">
-       	<input class="mbsm form-control mx-auto" type="text" id="name" name="name" required
-			minlength="4" maxlength="8" size="10" placeholder="Paris">
+		<h2 class="text-center mb-4">{{nbEvent}} évènements ont déjà été crée !</h2>
 		<ul class="index-categories row">
 		{% for item in nbEventByCategory %}
 			<div class="col-sm-4 col-xs-6">
@@ -31,6 +26,10 @@
 			</div>
 		{% endfor %}
 		</ul>
+		<h2 class="text-center mb-4">Voici les 2 derniers évènements crées</h2>
+        <div class="row">
+            {% include 'events/_events.html.twig' with { 'events': lastEvents } only %}
+        </div>
 	</div>
 
 {% endblock %}

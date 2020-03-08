@@ -6,6 +6,7 @@ use App\Entity\Events;
 use App\Data\SearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method Events|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,39 +16,14 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class EventsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry,PaginatorInterface $paginator)
     {
         parent::__construct($registry, Events::class);
+        $this->paginator = $paginator;
     }
-
-    // /**
-    //  * @return Events[] Returns an array of Events objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Events
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 
     public function getNbEvents()
     {
@@ -58,7 +34,7 @@ class EventsRepository extends ServiceEntityRepository
             ;
     }
 
-    public function getNbEventsAtDate($date)
+    /*public function getNbEventsAtDate($date)
     {
         $from = $date." 00:00:00";
         $to   = $date." 23:59:59";
@@ -72,9 +48,9 @@ class EventsRepository extends ServiceEntityRepository
             ->groupBy('c.name')
             ->getQuery()
             ->getResult();
-    }
+    }*/
 
-    public function getNbEventsWithThisCity($city)
+    /*public function getNbEventsWithThisCity($city)
     {
         return $this->createQueryBuilder('e')
             ->select('count(e) as number','c.name')
@@ -84,7 +60,7 @@ class EventsRepository extends ServiceEntityRepository
             ->groupBy('c.name')
             ->getQuery()
             ->getResult();
-    }
+    }*/
 
     public function getEventsGroupByCategories()
     {
@@ -96,20 +72,63 @@ class EventsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getAllEventsOfCategory($category)
+    public function getTwoLastEvents()
     {
         return $this->createQueryBuilder('e')
             ->select('e','count(u) as participant','c.name')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
-            ->where('c.name = :categorie')
-            ->setParameter('categorie', $category)
+            ->orderBy('e.date', 'desc')
             ->groupBy('e.id')
-            ->getQuery();
-            //->getResult();
+            ->setMaxResults(2)
+            ->getQuery()
+            ->getResult();
     }
 
-    public function getAllEventsByDate($date)
+    public function getAllEventsOfCategory($category, SearchData $search)
+    {
+        $query = $this->createQueryBuilder('e')
+            ->select('e','count(u) as participant','c.name')
+            ->leftJoin('e.categories', 'c')
+            ->leftJoin('e.id_users', 'u')
+            ->where('c.name = :categorie')
+            ->setParameter('categorie', $category);
+
+
+            if(!empty($search->query)){
+                $query = $query
+                    ->where('e.name LIKE :query')
+                    ->setParameter('query', "%{$search->query}%");
+            }
+
+            if(!empty($search->city)){
+                $query = $query
+                    ->andWhere('e.city LIKE :city')
+                    ->setParameter('city', "%{$search->city}%");
+            }
+
+            if(!empty($search->date)){
+                $from = $search->date." 00:00:00";
+                $to   = $search->date." 23:59:59";
+                $query = $query
+                    ->andWhere('e.date BETWEEN :from and :to')
+                    ->setParameter('from', $from)
+                    ->setParameter('to', $to);
+            }
+
+            $query = $query
+                ->groupBy('e.id');
+
+            $query = $query->getQuery();
+            return $this->paginator->paginate(
+            $query, /* query NOT result */
+            $search->page, /*page number*/
+            5
+        );
+
+    }
+
+    /*public function getAllEventsByDate($date)
     {
         $from = $date." 00:00:00";
         $to   = $date." 23:59:59";
@@ -124,9 +143,10 @@ class EventsRepository extends ServiceEntityRepository
             ->groupBy('e.id')
             ->getQuery();
             //->getResult();
-    }
 
-    public function getAllEventsOfCity($city)
+    }*/
+
+    /*public function getAllEventsOfCity($city)
     {
         return $this->createQueryBuilder('e')
             ->select('e','count(u) as participant','c.name')
@@ -137,7 +157,7 @@ class EventsRepository extends ServiceEntityRepository
             ->groupBy('e.id')
             ->getQuery();
             //->getResult();
-    }
+    }*/
 
     public function getAllEvents(SearchData $search)
     {
@@ -177,21 +197,61 @@ class EventsRepository extends ServiceEntityRepository
             $query = $query
             ->groupBy('e.id');
 
-            return $query->getQuery();
+            $query = $query->getQuery();
+            return $this->paginator->paginate(
+            $query, /* query NOT result */
+            $search->page, /*page number*/
+            5 /*limit per page*/
+        );
             //->getResult();
     }
 
-    public function getUserParticipations($user_id)
+    public function getUserParticipations($user_id, SearchData $search)
     {
-        return $this->createQueryBuilder('e')
+        $query = $this->createQueryBuilder('e')
             ->select('e','count(u) as participant','c.name')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
             ->where('u.id = :user')
-            ->setParameter('user', $user_id)
-            ->groupBy('e.id')
-            ->getQuery();
+            ->setParameter('user', $user_id);
+
+            if(!empty($search->query)){
+                $query = $query
+                    ->where('e.name LIKE :query')
+                    ->setParameter('query', "%{$search->query}%");
+            }
+
+            if(!empty($search->city)){
+                $query = $query
+                    ->andWhere('e.city LIKE :city')
+                    ->setParameter('city', "%{$search->city}%");
+            }
+
+            if(!empty($search->date)){
+                $from = $search->date." 00:00:00";
+                $to   = $search->date." 23:59:59";
+                $query = $query
+                    ->andWhere('e.date BETWEEN :from and :to')
+                    ->setParameter('from', $from)
+                    ->setParameter('to', $to);
+            }
+
+            if(!empty($search->categories)){
+                $query = $query
+                    ->andWhere('c.id IN (:categories)')
+                    ->setParameter('categories', $search->categories);
+            }
+
+            $query = $query
+                ->groupBy('e.id');
             //->getResult();
+
+            $query = $query->getQuery();
+            return $this->paginator->paginate(
+            $query, /* query NOT result */
+            $search->page, /*page number*/
+            5 /*limit per page*/
+        );
     }
 
     public function getSingleEvent($event_id)

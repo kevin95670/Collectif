@@ -9,39 +9,34 @@ use App\Form\EventsType;
 use App\Data\SearchData;
 use App\Form\SearchType;
 use App\Repository\EventsRepository;
-use App\Repository\CategoriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-/**
- * @Route("/")
- */
 class EventsController extends AbstractController
 {
     /**
      * @Route("/events", name="events")
      */
-    public function showAll(EventsRepository $eventsRepository, CategoriesRepository $categoriesRepository,PaginatorInterface $paginator,Request $request)
+    public function showAll(EventsRepository $eventsRepository,Request $request)
     {
         $data = new SearchData();
+        $data->page = $request->get('page', 1);
         $form = $this->createForm(SearchType::class, $data);
         $form->handleRequest($request);
-        $allEventsQuery = $eventsRepository->getAllEvents($data);
-        //$categories = $categoriesRepository->findAll();
+        $events = $eventsRepository->getAllEvents($data);
 
-        $pagination = $paginator->paginate(
-            $allEventsQuery, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
-        );
-
+        if ($request->get('ajax')){
+            return new JsonResponse([
+                'contenu' => $this->renderView('events/_events.html.twig', ['events' => $events]),
+                'pagination' => $this->renderView('events/_pagination.html.twig', ['events' => $events])
+            ]);
+        }
 
         return $this->render('events/index.html.twig',[
-            'events' => $pagination,
-            //'categories' => $categories,
+            'events' => $events,
             'filters' => $form->createView()
         ]);
     }
@@ -49,19 +44,50 @@ class EventsController extends AbstractController
     /**
      * @Route("/events/{category}", name="events_category")
      */
-    public function showByCategory(EventsRepository $eventsRepository, $category, CategoriesRepository $categoriesRepository,PaginatorInterface $paginator,Request $request)
+    public function showByCategory(EventsRepository $eventsRepository, $category,Request $request)
     {
-        $eventsOfThisCategoryQuery = $eventsRepository->getAllEventsOfCategory($category);
-        //$categories = $categoriesRepository->findAll();
-        $pagination = $paginator->paginate(
-            $eventsOfThisCategoryQuery, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
-        );
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+        $form = $this->createForm(SearchType::class, $data);
+        $form->remove('categories');
+        $form->handleRequest($request);
+        $events = $eventsRepository->getAllEventsOfCategory($category, $data);
+
+        if ($request->get('ajax')){
+            return new JsonResponse([
+                'contenu' => $this->renderView('events/_events.html.twig', ['events' => $events]),
+                'pagination' => $this->renderView('events/_pagination.html.twig', ['events' => $events])
+            ]);
+        }
 
         return $this->render('events/index.html.twig',[            
-            'events' => $pagination,
-            'categories' => $categories
+            'events' => $events,
+            'filters' => $form->createView(),
+            'showCategoryFilter' => 0
+        ]);
+    }
+
+    /**
+    * @Route("/participation", name="participations")
+    */
+    public function showParticipations(EventsRepository $eventsRepository, Request $request)
+    {
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+        $participations = $eventsRepository->getUserParticipations($this->getUser(), $data);
+
+        if ($request->get('ajax')){
+            return new JsonResponse([
+                'contenu' => $this->renderView('events/_events.html.twig', ['events' => $participations]),
+                'pagination' => $this->renderView('events/_pagination.html.twig', ['events' => $participations])
+            ]);
+        }
+
+        return $this->render('participations/participations.html.twig',[
+            'events' => $participations,
+            'filters' => $form->createView()
         ]);
     }
 

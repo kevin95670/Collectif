@@ -113,6 +113,7 @@ class EventsController extends AbstractController
             }
 
             $user->addEvent($event);
+            $event->setUpdatedAt(new \DateTime('now'));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);

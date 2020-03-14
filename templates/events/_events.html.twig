@@ -2,7 +2,7 @@
 <div class="col-sm-6 col-xs-12" id="event-{{event[0].id}}">
     <div class="card mb-3">
         {% if event[0].urlImage is not null %}
-                <img class="card-img-top" src="{{event[0].urlImage}}" alt="évènement-{{event[0].id}}" />
+                <img class="card-img-top" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" />
         {% endif %}
         <div class="card-body">
             <h2 class="card-title text-center">{{event[0].name}}</h2>

@@ -5,9 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventsRepository")
+ * @Vich\Uploadable()
  */
 class Events
 {
@@ -17,6 +21,12 @@ class Events
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="property_image", fileNameProperty="url_image")
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -63,6 +73,11 @@ class Events
      * @ORM\JoinColumn(nullable=false)
      */
     private $creator;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
 
     public function __construct()
     {
@@ -211,6 +226,33 @@ class Events
     public function setCreator(?User $creator): self
     {
         $this->creator = $creator;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): self
+    {
+        $this->imageFile = $imageFile;
+        if( $this->imageFile instanceof UploadedFile)
+        {
+            $this->updated_at = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

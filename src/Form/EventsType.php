@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class EventsType extends AbstractType
@@ -24,7 +25,7 @@ class EventsType extends AbstractType
             ->add('date', DateTimeType::class)
             ->add('city', TextType::class)
             ->add('nb_participant', NumberType::class)
-            ->add('url_image', TextType::class, ['required' => false])
+            ->add('imageFile', FileType::class, ['required' => false])
             ->add('description', TextareaType::class)
             ->add('categories', EntityType::class, [
             'class' => Categories::class,

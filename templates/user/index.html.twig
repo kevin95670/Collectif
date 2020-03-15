@@ -29,8 +29,8 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.phone }}</td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    <a class="btn btn-primary mr-3 card-link" href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    <a class="btn btn-success mr-3 card-link" href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_new') }}">Create new</a>
+    <a class="btn btn-primary mr-3 card-link" href="{{ path('user_new') }}">Create new</a>
 {% endblock %}

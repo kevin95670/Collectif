@@ -16,6 +16,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "flip-toolkit": "^7.0.9"
+        "flip-toolkit": "^7.0.9",
+        "jquery": "^3.4.1"
     }
 }

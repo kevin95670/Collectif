@@ -1,4 +1,8 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+	<div class="form-row">
+		<div class="form-group col-md-6">
+    		{{ form_row(form.name) }}
+    	</div>
+    </div>
+    <button class="btn btn-primary d-block mx-auto">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

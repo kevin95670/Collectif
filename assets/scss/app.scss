@@ -13,7 +13,7 @@ $black: #000;
 
 html,
 body {
-    min-height: 100%;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
 }
@@ -143,7 +143,13 @@ footer{
 	}
 }
 
-#inscription, #new-event{
+.edit-form{
+	.btn-danger{
+		margin-bottom: 2rem;
+	}
+}
+
+.form-style{
 
 	input,select,textarea{
 		height: calc(1.5em + .75rem + 2px);
@@ -157,6 +163,12 @@ footer{
 		border: 1px solid#ced4da;
 		border-radius: .25rem;
 		transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	}
+
+	input[type="file"]{
+		background: none;
+		border:none;
+		padding-left: 0;
 	}
 
 	input,textarea{
@@ -178,7 +190,7 @@ footer{
 
 }
 
-#new-event{
+.form-style-with-date{
 	.date{
 		#events_date{
 			#events_date_date,#events_date_time{

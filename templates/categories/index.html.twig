@@ -19,8 +19,8 @@
                 <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>
-                    <a href="{{ path('categories_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
+                    <a class="btn btn-primary mr-3 card-link" href="{{ path('categories_show', {'id': category.id}) }}">show</a>
+                    <a class="btn btn-success mr-3 card-link" href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('categories_new') }}">Create new</a>
+    <a class="btn btn-primary mr-3 card-link" href="{{ path('categories_new') }}">Create new</a>
 {% endblock %}

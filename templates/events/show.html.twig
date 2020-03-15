@@ -9,20 +9,23 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h2>{{event[0][0].name}}</h2>
                 {% if event[0][0].urlImage is not null %}
-                    <img src="{{event[0][0].urlImage}}" alt="évènement-{{event[0][0].id}}" />
+                    <img class="img-fluid" src="{{vich_uploader_asset(event[0][0], 'imageFile')}}" alt="évènement-{{event[0][0].id}}" />
                 {% endif %}
+                <h1 class="mb-3 mt-3 text-center">{{event[0][0].name}}</h1>
                 <p>Date : {{event[0][0].date|date("d-m-y")}} à {{event[0][0].date|date("H:m:s")}}</p>
                 <p>Participant : {{event[0].participant}} / {{event[0][0].nbParticipant}}</p>
                 <p>Ville : {{event[0][0].city}}</p>
-                <p>Catégorie : {{event[0].name}}</p>
-                {% if event[0].participant  != event[0][0].nbParticipant%}
-                    <a href="#">Rejoindre cet évènement</a>
-                {% endif %}
+                <p>Catégorie : <a href="{{ path('events_category', {category: event[0].name})}}">{{event[0].name}}</a></p>
+                <p>{{event[0][0].description}}</p>
+                <div class="d-block text-center btns-show-event">
+                    {% if event[0].participant  != event[0][0].nbParticipant%}
+                        <a class="btn btn-primary mr-3" href="#">Rejoindre cet évènement</a>
+                    {% endif %}
+                    <a class="btn btn-success mr-3" href="{{ path('edit_event', {'id': event[0][0].id}) }}">edit</a>
+                    {% include('events/_delete_form.html.twig') with {'event_id': event[0][0].id} %}
+                </div>
                 <a href="{{ path('events') }}">Retour liste des évènements</a>
-                <a href="{{ path('edit_event', {'id': event[0][0].id}) }}">edit</a>
-                {% include('events/_delete_form.html.twig') with {'event_id': event[0][0].id} %}
             </div>
         </div>
     </div>

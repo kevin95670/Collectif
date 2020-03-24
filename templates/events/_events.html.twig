@@ -7,7 +7,7 @@
         <div class="card-body">
             <h2 class="card-title text-center">{{event[0].name}}</h2>
             <p class="card-text">Date : {{event[0].date|date("d/m/Y")}} à {{event[0].date|date("H:m:s")}}</p>
-            <p class="card-text">Participant : {{event.participant}} / {{event[0].nbParticipant}}</p>
+            {# <p class="card-text">Participant : {{event.participant}} / {{event[0].nbParticipant}}</p> #}
             <p class="card-text">Ville : {{event[0].city}}</p>
             <p class="card-text">Catégorie : <a href="{{ path('events_category', {category: event[0].name})}}">{{event.name}}<a/></p>
             {#% if event.participant  != event[0].nbParticipant%}
@@ -15,8 +15,12 @@
             {% endif %}#}
             <div class="text-center">
                 <a class="btn btn-primary mr-3 card-link" href="{{ path('show_event', {'id': event[0].id}) }}">Voir</a>
-                <a class="btn btn-success mr-3 card-link" href="{{ path('edit_event', {'id': event[0].id}) }}">Modifier</a>
-                {% include('events/_delete_form.html.twig') with {'event_id': event[0].id} %}
+                {% if app.user.id is defined %}
+                    {% if event[0].creator.id == app.user.id %}
+                        <a class="btn btn-success mr-3 card-link" href="{{ path('edit_event', {'id': event[0].id}) }}">Modifier</a>
+                        {% include('events/_delete_form.html.twig') with {'event_id': event[0].id} %}
+                    {% endif %}
+                {% endif %}
                 {# <a href="{{ path('new_event') }}">Create new</a>#}
             </div>
         </div>

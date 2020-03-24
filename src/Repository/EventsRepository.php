@@ -31,7 +31,6 @@ class EventsRepository extends ServiceEntityRepository
             ->select('count(e)')
             ->getQuery()
             ->getSingleScalarResult();
-            ;
     }
 
     /*public function getNbEventsAtDate($date)
@@ -83,6 +82,19 @@ class EventsRepository extends ServiceEntityRepository
             ->setMaxResults(2)
             ->getQuery()
             ->getResult();
+    }
+
+    public function userAlreadyParticipate($event_id, $user_id)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e) as participe')
+            ->join('e.id_users', 'u')
+            ->where('e.id = :event')
+            ->setParameter('event', $event_id)
+            ->andWhere('u.id = :participant')
+            ->setParameter('participant', $user_id)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function getAllEventsOfCategory($category, SearchData $search)
@@ -217,7 +229,7 @@ class EventsRepository extends ServiceEntityRepository
 
             if(!empty($search->query)){
                 $query = $query
-                    ->where('e.name LIKE :query')
+                    ->andWhere('e.name LIKE :query')
                     ->setParameter('query', "%{$search->query}%");
             }
 

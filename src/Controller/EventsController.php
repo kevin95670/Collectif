@@ -138,9 +138,17 @@ class EventsController extends AbstractController
     {
         $event = $eventsRepository->getSingleEvent($id);
 
+        if($this->getUser() != null){
+            $participe = $eventsRepository->userAlreadyParticipate($id, $this->getUser());
+        }
+        else{
+            $participe = -1;
+        }
+
 
         return $this->render('events/show.html.twig', [
             'event' => $event,
+            'participe' => $participe,
         ]);
     }
 
@@ -176,5 +184,37 @@ class EventsController extends AbstractController
         }
 
         return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/event/{id}/join", name="join_event", methods={"GET","POST"})
+     */
+    public function join(Request $request, Events $event): Response
+    {
+        $user = $this->getUser();
+        $event->addIdUser($user);
+        $user->addEvent($event);
+        $event->setUpdatedAt(new \DateTime('now'));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($event);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('participations');
+    }
+
+    /**
+     * @Route("/event/{id}/leave", name="leave_event", methods={"GET","POST"})
+     */
+    public function leave(Request $request, Events $event): Response
+    {
+        $user = $this->getUser();
+        $event->removeIdUser($user);
+        $user->removeEvent($event);
+        $event->setUpdatedAt(new \DateTime('now'));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($event);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('participations');
     }
 }

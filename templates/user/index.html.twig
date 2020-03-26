@@ -25,8 +25,8 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.password }}</td>
-                <td>{{ user.surname }}</td>
-                <td>{{ user.name }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
                 <td>{{ user.phone }}</td>
                 <td>
                     <a class="btn btn-primary mr-3 card-link" href="{{ path('user_show', {'id': user.id}) }}">show</a>

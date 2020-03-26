@@ -74,7 +74,7 @@ class EventsRepository extends ServiceEntityRepository
     public function getTwoLastEvents()
     {
         return $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name')
+            ->select('e','count(u) as participant','c.name', 'u.firstname', 'u.lastname')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
             ->orderBy('e.date', 'desc')
@@ -100,7 +100,7 @@ class EventsRepository extends ServiceEntityRepository
     public function getAllEventsOfCategory($category, SearchData $search)
     {
         $query = $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name')
+            ->select('e','count(u) as participant','c.name', 'u.firstname', 'u.lastname')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
             ->where('c.name = :categorie')
@@ -175,7 +175,7 @@ class EventsRepository extends ServiceEntityRepository
     {
 
         $query = $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name')
+            ->select('e','count(u) as participant','c.name', 'u.firstname', 'u.lastname')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u');
 
@@ -183,6 +183,12 @@ class EventsRepository extends ServiceEntityRepository
                 $query = $query
                     ->where('e.name LIKE :query')
                     ->setParameter('query', "%{$search->query}%");
+            }
+
+            if(!empty($search->name)){
+                $query = $query
+                    ->where('u.firstname LIKE :name OR u.lastname LIKE :name')
+                    ->setParameter('name', "%{$search->name}%");
             }
 
             if(!empty($search->city)){
@@ -215,21 +221,20 @@ class EventsRepository extends ServiceEntityRepository
             $search->page, /*page number*/
             5 /*limit per page*/
         );
-            //->getResult();
     }
 
     public function getUserParticipations($user_id, SearchData $search)
     {
         $query = $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name')
-            ->leftJoin('e.categories', 'c')
-            ->leftJoin('e.id_users', 'u')
-            ->where('u.id = :user')
-            ->setParameter('user', $user_id);
+            ->select('e','count(u) as participant','c.name','u.id', 'u.firstname', 'u.lastname')
+            ->join('e.categories', 'c')
+            ->join('e.id_users', 'u');
+            /*->where('u.id = :user')
+            ->setParameter('user', $user_id);*/
 
             if(!empty($search->query)){
                 $query = $query
-                    ->andWhere('e.name LIKE :query')
+                    ->where('e.name LIKE :query')
                     ->setParameter('query', "%{$search->query}%");
             }
 
@@ -254,22 +259,25 @@ class EventsRepository extends ServiceEntityRepository
                     ->setParameter('categories', $search->categories);
             }
 
-            $query = $query
-                ->groupBy('e.id');
-            //->getResult();
+            /*$query = $query
+                ->groupBy('e.id')
+                ->having('u.id = :user')
+                ->setParameter('user', $user_id);*/
+                //->getResult();
 
             $query = $query->getQuery();
             return $this->paginator->paginate(
-            $query, /* query NOT result */
-            $search->page, /*page number*/
-            5 /*limit per page*/
+            $query,
+            $search->page,
+            5,
+            array('wrap-queries'=>true)
         );
     }
 
     public function getSingleEvent($event_id)
     {
         return $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name')
+            ->select('e','count(u) as participant','c.name', 'u.firstname', 'u.lastname')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
             ->where('e.id = :event')

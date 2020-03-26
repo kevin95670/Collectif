@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -13,7 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass="App\Repository\EventsRepository")
  * @Vich\Uploadable()
  */
-class Events
+class Events implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -35,6 +36,9 @@ class Events
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThanOrEqual(
+     * value = "+1 seconds"
+     * )
      */
     private $date;
 
@@ -255,6 +259,17 @@ class Events
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize($this->id);
+    }
+     
+    public function unserialize($serialized)
+    {
+       $this->id = unserialize($serialized);
+     
     }
 
 }

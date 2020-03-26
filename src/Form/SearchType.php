@@ -22,6 +22,9 @@ class SearchType extends AbstractType{
             	'required' => false,
             	'attr' => [ 'placeholder' => 'Mot clé']
             	])
+            ->add('name', TextType::class, [
+                'required' => false,
+                ])
             ->add('date', DateType::class, [
             	'required' => false,
             	'format' => 'dd/MM/yyyy',

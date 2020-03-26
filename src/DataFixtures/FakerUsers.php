@@ -27,8 +27,8 @@ class FakerUsers extends Fixture
         // on créé 50 personnes
         for ($i = 0; $i < 50; $i++) {
             $user = new User();
-            $user->setSurname($faker->firstName);
-            $user->setName($faker->lastName);
+            $user->setFirstname($faker->firstName);
+            $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber);
             $user->setEmail($faker->email);
             $user->setRoles($user->getRoles());

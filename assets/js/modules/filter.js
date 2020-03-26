@@ -76,7 +76,7 @@ export default class Filter {
 	}
 
 	/*
-	*	Remlace les éléments de la grille avec une animation
+	*	Remplace les éléments de la grille avec une animation
 	*/
 	flipContent (contenu){
 		const exitAnimation = function(element, index, complete){

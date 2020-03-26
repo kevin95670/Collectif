@@ -195,11 +195,12 @@ class EventsController extends AbstractController
         $event->addIdUser($user);
         $user->addEvent($event);
         $event->setUpdatedAt(new \DateTime('now'));
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($event);
         $entityManager->flush();
 
-        return $this->redirectToRoute('participations');
+        return $this->redirectToRoute('index');
     }
 
     /**
@@ -211,10 +212,11 @@ class EventsController extends AbstractController
         $event->removeIdUser($user);
         $user->removeEvent($event);
         $event->setUpdatedAt(new \DateTime('now'));
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($event);
         $entityManager->flush();
 
-        return $this->redirectToRoute('participations');
+        return $this->redirectToRoute('index');
     }
 }

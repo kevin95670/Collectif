@@ -37,7 +37,8 @@ class Events implements \Serializable
     /**
      * @ORM\Column(type="datetime")
      * @Assert\GreaterThanOrEqual(
-     * value = "+1 seconds"
+     * value = "+1 seconds",
+     * message = "Vous ne pouvez pas créer un évènement avant la date du jour"
      * )
      */
     private $date;

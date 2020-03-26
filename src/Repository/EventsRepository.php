@@ -113,6 +113,12 @@ class EventsRepository extends ServiceEntityRepository
                     ->setParameter('query', "%{$search->query}%");
             }
 
+            if(!empty($search->name)){
+                $query = $query
+                    ->where('u.firstname LIKE :name OR u.lastname LIKE :name')
+                    ->setParameter('name', "%{$search->name}%");
+            }
+
             if(!empty($search->city)){
                 $query = $query
                     ->andWhere('e.city LIKE :city')
@@ -129,7 +135,8 @@ class EventsRepository extends ServiceEntityRepository
             }
 
             $query = $query
-                ->groupBy('e.id');
+                ->groupBy('e.id')
+                ->orderBy('e.date','desc');
 
             $query = $query->getQuery();
             return $this->paginator->paginate(
@@ -213,7 +220,8 @@ class EventsRepository extends ServiceEntityRepository
             }
 
             $query = $query
-            ->groupBy('e.id');
+            ->groupBy('e.id')
+            ->orderBy('e.date','desc');
 
             $query = $query->getQuery();
             return $this->paginator->paginate(
@@ -228,13 +236,13 @@ class EventsRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('e')
             ->select('e','count(u) as participant','c.name','u.id', 'u.firstname', 'u.lastname')
             ->join('e.categories', 'c')
-            ->join('e.id_users', 'u');
-            /*->where('u.id = :user')
-            ->setParameter('user', $user_id);*/
+            ->join('e.id_users', 'u')
+            ->where('u.id = :user')
+            ->setParameter('user', $user_id);
 
             if(!empty($search->query)){
                 $query = $query
-                    ->where('e.name LIKE :query')
+                    ->andWhere('e.name LIKE :query')
                     ->setParameter('query', "%{$search->query}%");
             }
 
@@ -259,18 +267,18 @@ class EventsRepository extends ServiceEntityRepository
                     ->setParameter('categories', $search->categories);
             }
 
-            /*$query = $query
-                ->groupBy('e.id')
-                ->having('u.id = :user')
-                ->setParameter('user', $user_id);*/
-                //->getResult();
+            $query = $query
+                ->groupBy('e.id');
+                /*->having('u.id = :user')
+                ->setParameter('user', $user_id);
+                //->getResult();*/
 
             $query = $query->getQuery();
             return $this->paginator->paginate(
             $query,
             $search->page,
             5,
-            array('wrap-queries'=>true)
+            //array('wrap-queries'=>true)
         );
     }
 

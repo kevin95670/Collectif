@@ -10,7 +10,7 @@
             <p class="card-text">Date : {{event[0].date|date("d/m/Y")}} à {{event[0].date|date("H:m:s")}}</p>
             <p class="card-text">Participant : {{event.participant}} / {{event[0].nbParticipant}}</p>
             <p class="card-text">Ville : {{event[0].city}}</p>
-            <p class="card-text">Catégorie : <a href="{{ path('events_category', {category: event[0].name})}}">{{event.name}}<a/></p>
+            <p class="card-text">Catégorie : <a href="{{ path('events_category', {category: event[0].name})}}">{{event.name}}</a></p>
             {#% if event.participant  != event[0].nbParticipant%}
                 <a href="#">Rejoindre cet évènement</a>
             {% endif %}#}

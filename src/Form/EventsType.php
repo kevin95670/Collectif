@@ -25,7 +25,6 @@ class EventsType extends AbstractType
             ->add('date', DateTimeType::class, [
                 'data'  => new \DateTime(),
                 'years' => range(date('Y'), date('Y')+5),
-                'attr'   => ['min' => ( new \DateTime() )->format('Y-m-d H:i:s')]
             ])
             ->add('city', TextType::class)
             ->add('nb_participant', NumberType::class)

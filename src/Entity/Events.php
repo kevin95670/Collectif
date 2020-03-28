@@ -59,7 +59,7 @@ class Events implements \Serializable
     private $url_image;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=5000, nullable=true)
      */
     private $description;
 

@@ -200,7 +200,7 @@ class EventsController extends AbstractController
         $entityManager->persist($event);
         $entityManager->flush();
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('participations');
     }
 
     /**
@@ -217,6 +217,6 @@ class EventsController extends AbstractController
         $entityManager->persist($event);
         $entityManager->flush();
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('participations');
     }
 }

@@ -74,7 +74,7 @@ class EventsRepository extends ServiceEntityRepository
     public function getTwoLastEvents()
     {
         return $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name', 'u.firstname', 'u.lastname')
+            ->select('e')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
             ->orderBy('e.date', 'desc')
@@ -100,7 +100,7 @@ class EventsRepository extends ServiceEntityRepository
     public function getAllEventsOfCategory($category, SearchData $search)
     {
         $query = $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name', 'u.firstname', 'u.lastname')
+            ->select('e')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
             ->where('c.name = :categorie')
@@ -182,7 +182,7 @@ class EventsRepository extends ServiceEntityRepository
     {
 
         $query = $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name', 'u.firstname', 'u.lastname')
+            ->select('e')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u');
 
@@ -234,7 +234,7 @@ class EventsRepository extends ServiceEntityRepository
     public function getUserParticipations($user_id, SearchData $search)
     {
         $query = $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name','u.id', 'u.firstname', 'u.lastname')
+            ->select('e')
             ->join('e.categories', 'c')
             ->join('e.id_users', 'u')
             ->where('u.id = :user')
@@ -285,7 +285,7 @@ class EventsRepository extends ServiceEntityRepository
     public function getSingleEvent($event_id)
     {
         return $this->createQueryBuilder('e')
-            ->select('e','count(u) as participant','c.name', 'u.firstname', 'u.lastname')
+            ->select('e')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.id_users', 'u')
             ->where('e.id = :event')

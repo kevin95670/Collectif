@@ -9,35 +9,52 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                {% if event[0][0].urlImage is not null %}
-                    <img class="img-fluid" src="{{vich_uploader_asset(event[0][0], 'imageFile')}}" alt="évènement-{{event[0][0].id}}" />
+                {% if event[0].urlImage is not null %}
+                    <img class="img-fluid" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" />
                 {% endif %}
-                <h1 class="mb-3 mt-3 text-center">{{event[0][0].name}}</h1>
-                <p>Proposé par : {{event[0].firstname}} {{event[0].lastname}}</p>
-                <p>Date : {{event[0][0].date|date("d-m-y")}} à {{event[0][0].date|date("H:m:s")}}</p>
-                <p>Participant : {{event[0].participant}} / {{event[0][0].nbParticipant}}</p>
-                <p>Ville : {{event[0][0].city}}</p>
-                <p>Catégorie : <a href="{{ path('events_category', {category: event[0].name})}}">{{event[0].name}}</a></p>
-                <p>{{event[0][0].description}}</p>
+                <h1 class="mb-3 mt-3 text-center">{{event[0].name}}</h1>
+                <p>Proposé par : <a href="{{ path('user_show', {id: event[0].creator.id})}}">{{event[0].creator.firstname}} {{event[0].creator.lastname}}</a></p>
+                <p>Date : {{event[0].date|date("d-m-y")}} à {{event[0].date|date("H:m:s")}}</p>
+                <p>Participant : {{event[0].getIdUsers()|length}} / {{event[0].nbParticipant}}</p>
+                <p>Ville : {{event[0].city}}</p>
+                {% if event[0].getCategories()|length <= 1 %}
+                    <p class="card-text">Catégorie : 
+                {% else %}
+                    <p class="card-text">Catégories : 
+                {% endif %}
+                {% for categorie in event[0].getCategories() %}
+                    <a href="{{ path('events_category', {category: categorie.name})}}">{{categorie.name}}</a>
+                {% endfor %}
+                </p>
+                <p>Liste des participants :
+                {% for user in event[0].getIdUsers() %}
+                    {% if loop.last %}
+                        <a href="{{ path('user_show', {id: user.id})}}">{{user.firstname ~ ' ' ~ user.lastname}}</a>
+                    {% else %}
+                        <a href="{{ path('user_show', {id: user.id})}}">{{user.firstname ~ ' ' ~ user.lastname}},</a>
+                    {% endif %}
+                {% endfor %}
+                </p>
+                <p>{{event[0].description}}</p>
                 <div class="d-block text-center btns-show-event">
-                    {% if event[0][0].date < date() %}
+                    {% if event[0].date < date() %}
                         <p class="text-danger">Evenement terminé !</p>
                     {% else %}
                         {% if participe != -1 %}
                             {% if participe == 1 %}
                                     {# <a class="btn btn-danger mr-3" href="#">Quitter cet évènement</a> #}
-                                    {% include('events/_leave_form.html.twig') with {'event_id': event[0][0].id, 'participant': app.user.id} %}
+                                    {% include('events/_leave_form.html.twig') with {'event_id': event[0].id, 'participant': app.user.id} %}
                             {% else %}
-                                {% if event[0].participant  != event[0][0].nbParticipant%}
+                                {% if event[0].getIdUsers()|length  != event[0].nbParticipant%}
                                     {# <a class="btn btn-primary mr-3" href="#">Rejoindre cet évènement</a> #}
-                                    {% include('events/_join_form.html.twig') with {'event_id': event[0][0].id, 'participant': app.user.id} %}
+                                    {% include('events/_join_form.html.twig') with {'event_id': event[0].id, 'participant': app.user.id} %}
                                 {% endif %}
                             {% endif %}
                         {% else %}
                             <p>Pour rejoindre un évènement, vous devez vous <a class="nav-link" href="{{ path('app_login')}}">connecter</a></p>
                         {% endif %}
-                        <a class="btn btn-success mr-3" href="{{ path('edit_event', {'id': event[0][0].id}) }}">edit</a>
-                        {% include('events/_delete_form.html.twig') with {'event_id': event[0][0].id} %}
+                        <a class="btn btn-success mr-3" href="{{ path('edit_event', {'id': event[0].id}) }}">edit</a>
+                        {% include('events/_delete_form.html.twig') with {'event_id': event[0].id} %}
                     {% endif %}
                 </div>
                 <a href="{{ path('events') }}">Retour liste des évènements</a>

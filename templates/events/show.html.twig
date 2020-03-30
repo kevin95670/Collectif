@@ -9,14 +9,15 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                {% if event[0].urlImage is not null %}
+                {% if event[0].image is not null %}
                     <img class="img-fluid" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" />
                 {% endif %}
                 <h1 class="mb-3 mt-3 text-center">{{event[0].name}}</h1>
                 <p>Proposé par : <a href="{{ path('user_show', {id: event[0].creator.id})}}">{{event[0].creator.firstname}} {{event[0].creator.lastname}}</a></p>
                 <p>Date : {{event[0].date|date("d-m-y")}} à {{event[0].date|date("H:m:s")}}</p>
-                <p>Participant : {{event[0].getIdUsers()|length}} / {{event[0].nbParticipant}}</p>
+                <p>Participant : {{event[0].getUsers()|length}} / {{event[0].limite}}</p>
                 <p>Ville : {{event[0].city}}</p>
+                <p class="card-text">Adresse : {{event[0].address}}</p>
                 {% if event[0].getCategories()|length <= 1 %}
                     <p class="card-text">Catégorie : 
                 {% else %}
@@ -27,7 +28,7 @@
                 {% endfor %}
                 </p>
                 <p>Liste des participants :
-                {% for user in event[0].getIdUsers() %}
+                {% for user in event[0].getUsers() %}
                     {% if loop.last %}
                         <a href="{{ path('user_show', {id: user.id})}}">{{user.firstname ~ ' ' ~ user.lastname}}</a>
                     {% else %}
@@ -41,13 +42,13 @@
                         <p class="text-danger">Evenement terminé !</p>
                     {% else %}
                         {% if participe != -1 %}
-                            {% if participe == 1 %}
-                                    {# <a class="btn btn-danger mr-3" href="#">Quitter cet évènement</a> #}
-                                    {% include('events/_leave_form.html.twig') with {'event_id': event[0].id, 'participant': app.user.id} %}
-                            {% else %}
-                                {% if event[0].getIdUsers()|length  != event[0].nbParticipant%}
-                                    {# <a class="btn btn-primary mr-3" href="#">Rejoindre cet évènement</a> #}
-                                    {% include('events/_join_form.html.twig') with {'event_id': event[0].id, 'participant': app.user.id} %}
+                            {% if event[0].getCreator().id != app.user.id %}
+                                {% if participe == 1 %}
+                                        {% include('events/_leave_form.html.twig') with {'event_id': event[0].id, 'participant': app.user.id} %}
+                                {% else %}
+                                    {% if event[0].getUsers()|length  != event[0].limite%}
+                                        {% include('events/_join_form.html.twig') with {'event_id': event[0].id, 'participant': app.user.id} %}
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         {% else %}

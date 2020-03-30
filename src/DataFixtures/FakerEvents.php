@@ -24,8 +24,9 @@ class FakerEvents extends Fixture implements DependentFixtureInterface
             $event->setName($faker->word);
             $event->setDate($faker->dateTimeThisYear($max = 'now', $timezone = null));
             $event->setCity($faker->city);
-            $event->setNbParticipant($faker->numberBetween($min = 1, $max = 50));
-            $event->setUrlImage($faker->imageUrl($width = 640, $height = 480));
+            $event->setAddress($faker->streetAddress);
+            $event->setLimite($faker->numberBetween($min = 1, $max = 50));
+            $event->setImage($faker->imageUrl($width = 640, $height = 480));
             $event->setDescription($faker->text($maxNbChars = 1000));
             $event->setUpdatedAt(new \DateTime());
             $manager->persist($event);

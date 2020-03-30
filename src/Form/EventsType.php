@@ -27,7 +27,8 @@ class EventsType extends AbstractType
                 'years' => range(date('Y'), date('Y')+5),
             ])
             ->add('city', TextType::class)
-            ->add('nb_participant', NumberType::class)
+            ->add('address', TextType::class)
+            ->add('limite', NumberType::class)
             ->add('imageFile', FileType::class, ['required' => false])
             ->add('description', TextareaType::class)
             ->add('categories', EntityType::class, [

@@ -20,11 +20,8 @@ class SearchType extends AbstractType{
             ->add('query', TextType::class, [
             	'label' => false,
             	'required' => false,
-            	'attr' => [ 'placeholder' => 'Mot clé']
+            	'attr' => [ 'placeholder' => 'Rechercher un évènement, un créateur...']
             	])
-            ->add('name', TextType::class, [
-                'required' => false,
-                ])
             ->add('date', DateType::class, [
             	'required' => false,
             	'format' => 'dd/MM/yyyy',

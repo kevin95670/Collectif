@@ -25,11 +25,6 @@ class SearchData{
 	public $city = '';
 
 	/**
-	* @var string 
-	*/
-	public $name = '';
-
-	/**
 	* @var Date 
 	*/
 	public $date = '';

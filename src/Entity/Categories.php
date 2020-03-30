@@ -26,11 +26,11 @@ class Categories
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Events", inversedBy="categories")
      */
-    private $belonging;
+    private $events;
 
     public function __construct()
     {
-        $this->belonging = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
 
@@ -54,24 +54,24 @@ class Categories
     /**
      * @return Collection|Events[]
      */
-    public function getBelonging(): Collection
+    public function getEvents(): Collection
     {
-        return $this->belonging;
+        return $this->events;
     }
 
-    public function addBelonging(Events $belonging): self
+    public function addEvents(Events $events): self
     {
-        if (!$this->belonging->contains($belonging)) {
-            $this->belonging[] = $belonging;
+        if (!$this->events->contains($events)) {
+            $this->events[] = $events;
         }
 
         return $this;
     }
 
-    public function removeBelonging(Events $belonging): self
+    public function removeEvents(Events $events): self
     {
-        if ($this->belonging->contains($belonging)) {
-            $this->belonging->removeElement($belonging);
+        if ($this->events->contains($events)) {
+            $this->events->removeElement($events);
         }
 
         return $this;

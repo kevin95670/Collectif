@@ -76,7 +76,7 @@ class EventsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->select('e')
             ->leftJoin('e.categories', 'c')
-            ->leftJoin('e.id_users', 'u')
+            ->leftJoin('e.users', 'u')
             ->orderBy('e.date', 'desc')
             ->groupBy('e.id')
             ->setMaxResults(2)
@@ -88,7 +88,7 @@ class EventsRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('e')
             ->select('count(e) as participe')
-            ->join('e.id_users', 'u')
+            ->join('e.users', 'u')
             ->where('e.id = :event')
             ->setParameter('event', $event_id)
             ->andWhere('u.id = :participant')
@@ -102,21 +102,15 @@ class EventsRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('e')
             ->select('e')
             ->leftJoin('e.categories', 'c')
-            ->leftJoin('e.id_users', 'u')
+            ->leftJoin('e.users', 'u')
             ->where('c.name = :categorie')
             ->setParameter('categorie', $category);
 
 
             if(!empty($search->query)){
                 $query = $query
-                    ->where('e.name LIKE :query')
+                    ->where('e.name LIKE :query OR e.creator.firstname LIKE :query OR u.lastname LIKE :query')
                     ->setParameter('query', "%{$search->query}%");
-            }
-
-            if(!empty($search->name)){
-                $query = $query
-                    ->where('u.firstname LIKE :name OR u.lastname LIKE :name')
-                    ->setParameter('name', "%{$search->name}%");
             }
 
             if(!empty($search->city)){
@@ -142,7 +136,7 @@ class EventsRepository extends ServiceEntityRepository
             return $this->paginator->paginate(
             $query, /* query NOT result */
             $search->page, /*page number*/
-            5
+            4
         );
 
     }
@@ -155,7 +149,7 @@ class EventsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->select('e','count(u) as participant','c.name')
             ->leftJoin('e.categories', 'c')
-            ->leftJoin('e.id_users', 'u')
+            ->leftJoin('e.users', 'u')
             ->where('e.date BETWEEN :from and :to')
             ->setParameter('from', $from)
             ->setParameter('to', $to)
@@ -170,7 +164,7 @@ class EventsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->select('e','count(u) as participant','c.name')
             ->leftJoin('e.categories', 'c')
-            ->leftJoin('e.id_users', 'u')
+            ->leftJoin('e.users', 'u')
             ->where('e.city = :city')
             ->setParameter('city', $city)
             ->groupBy('e.id')
@@ -183,19 +177,14 @@ class EventsRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('e')
             ->select('e')
-            ->leftJoin('e.categories', 'c')
-            ->leftJoin('e.id_users', 'u');
+            ->join('e.categories', 'c')
+            ->join('e.users', 'u');
 
             if(!empty($search->query)){
                 $query = $query
-                    ->where('e.name LIKE :query')
+                    ->where('e.name LIKE :query OR u.firstname LIKE :query OR u.lastname LIKE :query')
+                    ->andWhere('e.creator = u.id')
                     ->setParameter('query', "%{$search->query}%");
-            }
-
-            if(!empty($search->name)){
-                $query = $query
-                    ->where('u.firstname LIKE :name OR u.lastname LIKE :name')
-                    ->setParameter('name', "%{$search->name}%");
             }
 
             if(!empty($search->city)){
@@ -227,7 +216,7 @@ class EventsRepository extends ServiceEntityRepository
             return $this->paginator->paginate(
             $query, /* query NOT result */
             $search->page, /*page number*/
-            5 /*limit per page*/
+            4 /*limit per page*/
         );
     }
 
@@ -235,14 +224,14 @@ class EventsRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('e')
             ->select('e')
-            ->join('e.categories', 'c')
-            ->join('e.id_users', 'u')
+            ->leftJoin('e.categories', 'c')
+            ->leftJoin('e.users', 'u')
             ->where('u.id = :user')
             ->setParameter('user', $user_id);
 
             if(!empty($search->query)){
                 $query = $query
-                    ->andWhere('e.name LIKE :query')
+                    ->andWhere('e.name LIKE :query OR u.firstname LIKE :query OR u.lastname LIKE :query')
                     ->setParameter('query', "%{$search->query}%");
             }
 
@@ -268,7 +257,8 @@ class EventsRepository extends ServiceEntityRepository
             }
 
             $query = $query
-                ->groupBy('e.id');
+                ->groupBy('e.id')
+                ->orderBy('e.date','desc');
                 /*->having('u.id = :user')
                 ->setParameter('user', $user_id);
                 //->getResult();*/
@@ -277,7 +267,7 @@ class EventsRepository extends ServiceEntityRepository
             return $this->paginator->paginate(
             $query,
             $search->page,
-            5,
+            4,
             //array('wrap-queries'=>true)
         );
     }
@@ -287,7 +277,7 @@ class EventsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->select('e')
             ->leftJoin('e.categories', 'c')
-            ->leftJoin('e.id_users', 'u')
+            ->leftJoin('e.users', 'u')
             ->where('e.id = :event')
             ->setParameter('event', $event_id)
             ->getQuery()

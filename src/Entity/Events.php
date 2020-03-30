@@ -25,7 +25,7 @@ class Events implements \Serializable
 
     /**
      * @var File|null
-     * @Vich\UploadableField(mapping="property_image", fileNameProperty="url_image")
+     * @Vich\UploadableField(mapping="property_image", fileNameProperty="image")
      */
     private $imageFile;
 
@@ -49,14 +49,19 @@ class Events implements \Serializable
     private $city;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $nb_participant;
+    private $limite;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $url_image;
+    private $image;
 
     /**
      * @ORM\Column(type="string", length=5000, nullable=true)
@@ -64,14 +69,14 @@ class Events implements \Serializable
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Categories", mappedBy="belonging")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Categories", mappedBy="events")
      */
     private $categories;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="events")
      */
-    private $id_users;
+    private $users;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="creations")
@@ -87,7 +92,7 @@ class Events implements \Serializable
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-        $this->id_users = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,26 +136,38 @@ class Events implements \Serializable
         return $this;
     }
 
-    public function getNbParticipant(): ?int
+    public function getAddress(): ?string
     {
-        return $this->nb_participant;
+        return $this->address;
     }
 
-    public function setNbParticipant(?int $nb_participant): self
+    public function setAddress(string $address): self
     {
-        $this->nb_participant = $nb_participant;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getUrlImage(): ?string
+    public function getLimite(): ?int
     {
-        return $this->url_image;
+        return $this->limite;
     }
 
-    public function setUrlImage(?string $url_image): self
+    public function setLimite(?int $limite): self
     {
-        $this->url_image = $url_image;
+        $this->limite = $limite;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
@@ -179,7 +196,7 @@ class Events implements \Serializable
     {
         if (!$this->categories->contains($category)) {
             $this->categories[] = $category;
-            $category->addBelonging($this);
+            $category->addEvents($this);
         }
 
         return $this;
@@ -189,7 +206,7 @@ class Events implements \Serializable
     {
         if ($this->categories->contains($category)) {
             $this->categories->removeElement($category);
-            $category->removeBelonging($this);
+            $category->removeEvents($this);
         }
 
         return $this;
@@ -198,26 +215,26 @@ class Events implements \Serializable
     /**
      * @return Collection|User[]
      */
-    public function getIdUsers(): Collection
+    public function getUsers(): Collection
     {
-        return $this->id_users;
+        return $this->users;
     }
 
-    public function addIdUser(User $idUser): self
+    public function addUser(User $user): self
     {
-        if (!$this->id_users->contains($idUser)) {
-            $this->id_users[] = $idUser;
-            $idUser->addEvent($this);
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addEvent($this);
         }
 
         return $this;
     }
 
-    public function removeIdUser(User $idUser): self
+    public function removeUser(User $user): self
     {
-        if ($this->id_users->contains($idUser)) {
-            $this->id_users->removeElement($idUser);
-            $idUser->removeEvent($this);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeEvent($this);
         }
 
         return $this;

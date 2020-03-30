@@ -104,12 +104,12 @@ class EventsController extends AbstractController
 
             $user = $this->getUser();
             $event->setCreator($user);
-            $event->addIdUser($user);
+            $event->addUser($user);
             
             $categories = $form->get('categories')->getData();
             for ($i=0; $i < count($categories); $i++) { 
                 $event->addCategory($categories[$i]);
-                $categories[$i]->addBelonging($event);
+                $categories[$i]->addEvents($event);
             }
 
             $user->addEvent($event);
@@ -192,7 +192,7 @@ class EventsController extends AbstractController
     public function join(Request $request, Events $event): Response
     {
         $user = $this->getUser();
-        $event->addIdUser($user);
+        $event->addUser($user);
         $user->addEvent($event);
         $event->setUpdatedAt(new \DateTime('now'));
 
@@ -209,7 +209,7 @@ class EventsController extends AbstractController
     public function leave(Request $request, Events $event): Response
     {
         $user = $this->getUser();
-        $event->removeIdUser($user);
+        $event->removeUser($user);
         $user->removeEvent($event);
         $event->setUpdatedAt(new \DateTime('now'));
 

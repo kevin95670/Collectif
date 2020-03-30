@@ -1,15 +1,16 @@
 {% for event in events %}
 <div class="col-sm-6 col-xs-12 {% if event.date < date() %}event-finished{% endif %}" id="event-{{event.id}}">
     <div class="card mb-3">
-        {% if event.urlImage is not null %}
+        {% if event.image is not null %}
                 <img class="card-img-top" src="{{vich_uploader_asset(event, 'imageFile')}}" alt="évènement-{{event.id}}" />
         {% endif %}
         <div class="card-body">
             <h2 class="card-title text-center">{{event.name}}</h2>
             <p>Proposé par : <a href="{{ path('user_show', {id: event.creator.id})}}">{{event.creator.firstname}} {{event.creator.lastname}}</a></p>
             <p class="card-text">Date : {{event.date|date("d/m/Y")}} à {{event.date|date("H:m:s")}}</p>
-            <p class="card-text">Participant : {{event.getIdUsers()|length}} / {{event.nbParticipant}}</p>
+            <p class="card-text">Participant : {{event.getUsers()|length}} / {{event.limite}}</p>
             <p class="card-text">Ville : {{event.city}}</p>
+            <p class="card-text">Adresse : {{event.address}}</p>
             {% if event.getCategories()|length <= 1 %}
                 <p class="card-text">Catégorie : 
             {% else %}
@@ -19,7 +20,7 @@
                 <a href="{{ path('events_category', {category: categorie.name})}}">{{categorie.name}}</a>
             {% endfor %}
                 </p>
-            {#% if event.participant  != event.nbParticipant%}
+            {#% if event.participant  != event.limite%}
                 <a href="#">Rejoindre cet évènement</a>
             {% endif %}#}
             <div class="text-center">

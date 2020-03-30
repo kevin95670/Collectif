@@ -51,7 +51,7 @@ class User implements UserInterface
     private $phone;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Events", inversedBy="id_users")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Events", inversedBy="users")
      */
     private $events;
 

@@ -22,7 +22,7 @@ class FakerEvents extends Fixture implements DependentFixtureInterface
             $event = new Events();
             $event->setCreator($this->getReference(FakerUsers::Users_Event_reference.'_'.rand(0,49)));
             $event->setName($faker->word);
-            $event->setDate($faker->dateTimeThisYear($max = 'now', $timezone = null));
+            $event->setDate($faker->dateTimeThisYear($max = 'now', $timezone = 'Europe/Paris'));
             $event->setCity($faker->city);
             $event->setAddress($faker->streetAddress);
             $event->setLimite($faker->numberBetween($min = 1, $max = 50));

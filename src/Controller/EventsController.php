@@ -5,10 +5,16 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Events;
+use App\Entity\Comment;
+use App\Entity\Review;
 use App\Form\EventsType;
 use App\Data\SearchData;
 use App\Form\SearchType;
+use App\Form\CommentType;
+use App\Form\ReviewType;
 use App\Repository\EventsRepository;
+use App\Repository\CommentRepository;
+use App\Repository\ReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -134,14 +140,26 @@ class EventsController extends AbstractController
     /**
      * @Route("/event/{id}", name="show_event", methods={"GET"})
      */
-    public function show(EventsRepository $eventsRepository, $id): Response
+    public function show(EventsRepository $eventsRepository, $id, CommentRepository $commentRepository, ReviewRepository $reviewRepository, Request $request): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        $review = new Review();
+        $formReview = $this->createForm(ReviewType::class, $review);
+        $formReview->handleRequest($request);
+
+        $comments = $commentRepository->getCommentsOfEvent($id);
+        $reviews = $reviewRepository->getReviewsOfEvent($id);
         $event = $eventsRepository->getSingleEvent($id);
 
-        if($this->getUser() != null){
+        $moyenne = $reviewRepository->getAverageOfEvent($id);
+
+        if($this->getUser() != null){ // 1 si participe 0 sinon
             $participe = $eventsRepository->userAlreadyParticipate($id, $this->getUser());
         }
-        else{
+        else{ //Utilisateur déconnecté
             $participe = -1;
         }
 
@@ -149,6 +167,11 @@ class EventsController extends AbstractController
         return $this->render('events/show.html.twig', [
             'event' => $event,
             'participe' => $participe,
+            'form' => $form->createView(),
+            'formReview' => $formReview->createView(),
+            'comments' => $comments,
+            'reviews' => $reviews,
+            'moyenne' => $moyenne
         ]);
     }
 
@@ -201,6 +224,64 @@ class EventsController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('participations');
+    }
+
+
+    /**
+     * @Route("/event/{id}/send", name="send_comment", methods={"GET","POST"})
+     */
+    public function send(Request $request, Events $event, $id): Response
+    {
+            $comment = new Comment();
+            $texte = $request->get('comment');
+            $texte = $texte['comment'];
+
+            $comment->setComment($texte);
+            
+            $user = $this->getUser();
+            $comment->setUser($user);
+            $comment->setEvent($event);
+            
+            $user->addComment($comment);
+            $event->addComment($comment);
+
+            $comment->setCreatedAt(new \DateTime('now'));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_event',array('id' => $id));
+    }
+
+    /**
+     * @Route("/event/{id}/rate", name="send_review", methods={"GET","POST"})
+     */
+    public function rate(Request $request, Events $event, $id): Response
+    {
+            $review = new Review();
+            $texte = $request->get('review');
+            $texte = $texte['comment'];
+            $note = $request->get('review');
+            $note = intval($note['note']);
+
+            $review->setComment($texte);
+            $review->setNote($note);
+            
+            $user = $this->getUser();
+            $review->setUser($user);
+            $review->setEvent($event);
+            
+            $user->addReview($review);
+            $event->addReview($review);
+
+            $review->setCreatedAt(new \DateTime('now'));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($review);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_event',array('id' => $id));
     }
 
     /**

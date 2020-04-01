@@ -4,8 +4,6 @@ namespace App\Form;
 
 use App\Entity\Events;
 use App\Entity\Categories;
-use App\Repository\CategoriesRepository;
-use App\Repository\EventsRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

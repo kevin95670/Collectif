@@ -1,0 +1,13 @@
+<form class="d-inline-block align-bottom card-link" method="post" action="{{ path('send_review', {'id': event_id}) }}">
+	<div class="form-row">
+		<div class="form-group col-md-6">
+    		{{ form_row(formReview.note) }}
+    	</div>
+    </div>
+	<div class="form-row">
+		<div class="form-group col-md-12">
+    		{{ form_row(formReview.comment) }}
+    	</div>
+    </div>
+    <button type="submit" class="btn btn-primary d-block mx-auto">Envoyer une appréciation</button>
+</form>

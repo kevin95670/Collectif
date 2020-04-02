@@ -13,12 +13,12 @@
                     <img class="img-fluid" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" />
                 {% endif %}
                 <h1 class="mb-3 mt-3 text-center">{{event[0].name}}</h1>
-                {% if event[0].date < date()%}
+                {% if event[0].date < date() %}
                     {#<p>Moyenne : {{moyenne|trim('0')|trim('.')}}#}
                     {% if moyenne is null %}
-                        <p>Evènement non évalué</p>
+                        <p class="no-rate">Evènement non évalué</p>
                     {% else %}
-                        <p>
+                        <p class="rate-average">
                             {% for note in 0..(moyenne|trim('0')|trim('.'))-1 %}
                                 <img class="img-fluid rate" src="{{ asset('images/star.png') }}" alt="Note"/>
                             {% endfor %}
@@ -75,40 +75,47 @@
                     {% endif %}
                 </div>
                 <a href="{{ path('events') }}">Retour liste des évènements</a>
-                <div class="comments">
+                <div class="event-chat mt-5">
                     {% if event[0].date > date() and 2 == 1 %}
                         {% if app.user %}
                             {% include('comment/_send.html.twig') with {'event_id': event[0].id} %}
                         {% endif %}
-
-                        {% for comment in comments %}
-                            <p>{{comment.comment}}</p>
-                            <em>Publié par : {{comment.getUser().firstname ~ ' ' ~ comment.getUser().lastname}}, le {{comment.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
-                            {% if app.user %}
-                                {% if comment.getUser().id == app.user.id %}
-                                    {% include('comment/_delete_form.html.twig') with {'comment_id': comment.id} %}
+                        <div class="comments mt-5">
+                            {% for comment in comments %}
+                            <div class="comment mt-2 mb-3">
+                                <p>{{comment.comment}}</p>
+                                <em>Publié par : {{comment.getUser().firstname ~ ' ' ~ comment.getUser().lastname}}, le {{comment.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
+                                {% if app.user %}
+                                    {% if comment.getUser().id == app.user.id %}
+                                        {% include('comment/_delete_form.html.twig') with {'comment_id': comment.id} %}
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                        {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
                     {% else %}
                         {% if participe == 1 %}
                             {% include('review/_send.html.twig') with {'event_id': event[0].id} %}
                         {% endif %}
 
-                        {% for review in reviews %}
-                            <p>
-                            {% for note in 1..review.note %}
-                                <img class="img-fluid rate" src="{{ asset('images/star.png') }}" alt="Note"/>
-                            {% endfor %}
-                            </p>
-                            <p>{{review.comment}}</p>
-                            <em>Publié par : {{review.getUser().firstname ~ ' ' ~ review.getUser().lastname}}, le {{review.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
-                            {% if app.user %}
-                                {% if review.getUser().id == app.user.id %}
-                                    {% include('review/_delete_form.html.twig') with {'review_id': review.id} %}
+                        <div class="reviews mt-5">
+                            {% for review in reviews %}
+                            <div class="review mt-2 mb-3">
+                                <p>
+                                {% for note in 1..review.note %}
+                                    <img class="img-fluid rate" src="{{ asset('images/star.png') }}" alt="Note"/>
+                                {% endfor %}
+                                </p>
+                                <p>{{review.comment}}</p>
+                                <em>Publié par : {{review.getUser().firstname ~ ' ' ~ review.getUser().lastname}}, le {{review.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
+                                {% if app.user %}
+                                    {% if review.getUser().id == app.user.id %}
+                                        {% include('review/_delete_form.html.twig') with {'review_id': review.id} %}
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                        {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
             </div>

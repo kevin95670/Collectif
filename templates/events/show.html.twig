@@ -13,16 +13,20 @@
                     <img class="img-fluid" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" />
                 {% endif %}
                 <h1 class="mb-3 mt-3 text-center">{{event[0].name}}</h1>
-                {% if event[0].date < date() or 1 == 1 %}
+                {% if event[0].date < date()%}
                     {#<p>Moyenne : {{moyenne|trim('0')|trim('.')}}#}
-                    <p>
-                        {% for note in 0..(moyenne|trim('0')|trim('.'))-1 %}
-                            <img class="img-fluid rate" src="{{ asset('images/star.png') }}" alt="Note"/>
-                        {% endfor %}
-                        {% if moyenne != moyenne|round %}
-                            <img class="img-fluid rate" src="{{ asset('images/half-star.png') }}" alt="Note"/>
-                        {% endif %}
-                    </p>
+                    {% if moyenne is null %}
+                        <p>Evènement non évalué</p>
+                    {% else %}
+                        <p>
+                            {% for note in 0..(moyenne|trim('0')|trim('.'))-1 %}
+                                <img class="img-fluid rate" src="{{ asset('images/star.png') }}" alt="Note"/>
+                            {% endfor %}
+                            {% if moyenne != moyenne|round %}
+                                <img class="img-fluid rate" src="{{ asset('images/half-star.png') }}" alt="Note"/>
+                            {% endif %}
+                        </p>
+                    {% endif %}
                 {% endif %}
                 <p>Proposé par : <a href="{{ path('user_show', {id: event[0].creator.id})}}">{{event[0].creator.firstname}} {{event[0].creator.lastname}}</a></p>
                 <p>Date : {{event[0].date|date("d-m-y")}} à {{event[0].date|date("H:i:s")}}</p>
@@ -61,12 +65,13 @@
                                         {% include('events/_join_form.html.twig') with {'event_id': event[0].id, 'participant': app.user.id} %}
                                     {% endif %}
                                 {% endif %}
+                            {% else %}
+                                <a class="btn btn-success mr-3" href="{{ path('edit_event', {'id': event[0].id}) }}">Modifier</a>
+                                {% include('events/_delete_form.html.twig') with {'event_id': event[0].id} %}
                             {% endif %}
                         {% else %}
                             <p>Pour rejoindre un évènement, vous devez vous <a class="nav-link" href="{{ path('app_login')}}">connecter</a></p>
                         {% endif %}
-                        <a class="btn btn-success mr-3" href="{{ path('edit_event', {'id': event[0].id}) }}">edit</a>
-                        {% include('events/_delete_form.html.twig') with {'event_id': event[0].id} %}
                     {% endif %}
                 </div>
                 <a href="{{ path('events') }}">Retour liste des évènements</a>
@@ -79,8 +84,10 @@
                         {% for comment in comments %}
                             <p>{{comment.comment}}</p>
                             <em>Publié par : {{comment.getUser().firstname ~ ' ' ~ comment.getUser().lastname}}, le {{comment.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
-                            {% if comment.getUser().id == app.user.id %}
-                                {% include('comment/_delete_form.html.twig') with {'comment_id': comment.id} %}
+                            {% if app.user %}
+                                {% if comment.getUser().id == app.user.id %}
+                                    {% include('comment/_delete_form.html.twig') with {'comment_id': comment.id} %}
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                     {% else %}
@@ -96,8 +103,10 @@
                             </p>
                             <p>{{review.comment}}</p>
                             <em>Publié par : {{review.getUser().firstname ~ ' ' ~ review.getUser().lastname}}, le {{review.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
-                            {% if review.getUser().id == app.user.id %}
-                                {% include('review/_delete_form.html.twig') with {'review_id': review.id} %}
+                            {% if app.user %}
+                                {% if review.getUser().id == app.user.id %}
+                                    {% include('review/_delete_form.html.twig') with {'review_id': review.id} %}
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                     {% endif %}

@@ -1,4 +1,6 @@
+Prénom: Prénom
 Name: Nom
+Nom : Nom
 Date : Date
 Nb participant: 'Limite de participant'
 City: Ville
@@ -17,15 +19,19 @@ Email: Email
 Firstname: Prénom
 Lastname: Nom
 Phone: Téléphone
-Limite: Limite
+Limite: Limite de participant
 Répéter le mot de passe: 'Répéter le mot de passe'
 Address: Adresse
-Rechercher un évènement, un créateur...: 'Rechercher un évènement, un créateur...'
+Rechercher: 'Rechercher'
 Comment: Commentaire
 Note: Note
+6 rue de Montmartre: '6 rue de Montmartre'
+Paris: Paris
+Football: Football
 0: 0
 1: 1
 2: 2
 3: 3
 4: 4
 5: 5
+exemple@exemple.com: exemple@exemple.com

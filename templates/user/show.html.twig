@@ -16,14 +16,6 @@
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
                 <th>Surname</th>
                 <td>{{ user.firstname }}</td>
             </tr>
@@ -38,9 +30,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <div class="d-block text-center">
+        <a class="btn btn-success mt-3 mb-3 ml-3 mr-3 card-link" href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
 
-    <a class="btn btn-success mt-3 mb-3 ml-3 mr-3 card-link" href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+    <a href="{{ path('user_index') }}">Liste des utilisateurs</a>
 {% endblock %}

@@ -119,7 +119,7 @@ class EventsController extends AbstractController
             }
 
             $user->addEvent($event);
-            $event->setUpdatedAt(new \DateTime('now'));
+            $event->setUpdatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
@@ -217,7 +217,7 @@ class EventsController extends AbstractController
         $user = $this->getUser();
         $event->addUser($user);
         $user->addEvent($event);
-        $event->setUpdatedAt(new \DateTime('now'));
+        $event->setUpdatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($event);
@@ -245,7 +245,7 @@ class EventsController extends AbstractController
             $user->addComment($comment);
             $event->addComment($comment);
 
-            $comment->setCreatedAt(new \DateTime('now'));
+            $comment->setCreatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
@@ -275,7 +275,7 @@ class EventsController extends AbstractController
             $user->addReview($review);
             $event->addReview($review);
 
-            $review->setCreatedAt(new \DateTime('now'));
+            $review->setCreatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($review);
@@ -292,7 +292,7 @@ class EventsController extends AbstractController
         $user = $this->getUser();
         $event->removeUser($user);
         $user->removeEvent($event);
-        $event->setUpdatedAt(new \DateTime('now'));
+        $event->setUpdatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($event);

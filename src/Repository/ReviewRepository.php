@@ -56,7 +56,7 @@ class ReviewRepository extends ServiceEntityRepository
             ->join('r.event', 'e')
             ->where('e.id = :event')
             ->setParameter('event', $event_id)
-            ->orderBy('r.created_at', 'desc')
+            ->orderBy('r.created_at', 'asc')
             ->getQuery()
             ->getResult();
     }

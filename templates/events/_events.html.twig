@@ -5,9 +5,9 @@
                 <img class="card-img-top" src="{{vich_uploader_asset(event, 'imageFile')}}" alt="évènement-{{event.id}}" />
         {% endif %}
         <div class="card-body">
-            <h2 class="card-title text-center">{{event.name}}</h2>
+            <h2 class="card-title text-center">{{event.name|capitalize}}</h2>
             <p>Proposé par : <a href="{{ path('user_show', {id: event.creator.id})}}">{{event.creator.firstname}} {{event.creator.lastname}}</a></p>
-            <p class="card-text">Date : {{event.date|date("d/m/Y")}} à {{event.date|date("H:m:s")}}</p>
+            <p class="card-text">Date : {{event.date|date("d/m/Y")}} à {{event.date|date("H:i:s")}}</p>
             <p class="card-text">Participant : {{event.getUsers()|length}} / {{event.limite}}</p>
             <p class="card-text">Ville : {{event.city}}</p>
             <p class="card-text">Adresse : {{event.address}}</p>
@@ -26,14 +26,15 @@
             <div class="text-center">
                 {% if event.date < date() %}
                     <p class="text-danger">Evenement terminé !</p>
+                    <a class="btn btn-color-alt mr-3 card-link" href="{{ path('show_event', {'id': event.id}) }}">Voir l'évaluation</a>
                 {% else %}
-                    <a class="btn btn-primary mr-3 card-link" href="{{ path('show_event', {'id': event.id}) }}">Voir</a>
-                    {% if app.user.id is defined %}
+                    <a class="btn btn-color-alt mr-3 card-link" href="{{ path('show_event', {'id': event.id}) }}">Voir</a>
+                    {# {% if app.user.id is defined %}
                         {% if event.creator.id == app.user.id %}
                             <a class="btn btn-success mr-3 card-link" href="{{ path('edit_event', {'id': event.id}) }}">Modifier</a>
                             {% include('events/_delete_form.html.twig') with {'event_id': event.id} %}
                         {% endif %}
-                    {% endif %}
+                    {% endif %}#}
                 {% endif %}
                 {# <a href="{{ path('new_event') }}">Create new</a>#}
             </div>

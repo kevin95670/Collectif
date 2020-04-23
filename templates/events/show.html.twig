@@ -10,7 +10,9 @@
         <div class="row">
             <div class="col-sm-12">
                 {% if event[0].image is not null %}
-                    <img class="img-fluid" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" />
+                    <div class="img-event text-center">
+                        <img class="img-fluid" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" />
+                    </div>
                 {% endif %}
                 <h1 class="mb-3 mt-3 text-center">{{event[0].name}}</h1>
                 {% if event[0].date < date() %}
@@ -76,11 +78,12 @@
                 </div>
                 <a href="{{ path('events') }}">Retour liste des évènements</a>
                 <div class="event-chat mt-5">
-                    {% if event[0].date > date() and 2 == 1 %}
+                    {% if event[0].date > date() %}
                         {% if app.user %}
                             {% include('comment/_send.html.twig') with {'event_id': event[0].id} %}
                         {% endif %}
                         <div class="comments mt-5">
+                            <h3 class="my-4 text-center">Commentaires </h3>
                             {% for comment in comments %}
                             <div class="comment mt-2 mb-3">
                                 <p>{{comment.comment}}</p>
@@ -99,6 +102,7 @@
                         {% endif %}
 
                         <div class="reviews mt-5">
+                            <h3 class="my-4 text-center">Notation </h3>
                             {% for review in reviews %}
                             <div class="review mt-2 mb-3">
                                 <p>

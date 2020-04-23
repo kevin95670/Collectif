@@ -4,14 +4,12 @@
 
 {% block body_id 'new-user' %}
 
-{% block body_class 'form-style' %}
-
 {% block body %}
 <div class="container">
-	<h1 class="text-center mb-5">Create new User</h1>
+	<h1 class="text-center mb-5">Créer un nouvel utilisateur</h1>
 
     {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <a href="{{ path('user_index') }}">Revenir à la liste des utilisateurs</a>
 </div>
 {% endblock %}

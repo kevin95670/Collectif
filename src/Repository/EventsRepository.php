@@ -77,7 +77,7 @@ class EventsRepository extends ServiceEntityRepository
             ->select('e')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.users', 'u')
-            ->orderBy('e.date', 'desc')
+            ->orderBy('e.updated_at', 'desc')
             ->groupBy('e.id')
             ->setMaxResults(2)
             ->getQuery()
@@ -109,7 +109,7 @@ class EventsRepository extends ServiceEntityRepository
 
             if(!empty($search->query)){
                 $query = $query
-                    ->where('e.name LIKE :query OR e.creator.firstname LIKE :query OR u.lastname LIKE :query')
+                    ->andWhere('e.name LIKE :query OR u.firstname LIKE :query OR u.lastname LIKE :query')
                     ->setParameter('query', "%{$search->query}%");
             }
 

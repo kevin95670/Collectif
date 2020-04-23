@@ -18,9 +18,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('categories_index') }}">back to list</a>
+    <div class="d-block text-center">
+        {{ include('categories/_delete_form.html.twig') }}
+        <a class="btn btn-success mt-3 mb-3 ml-3 mr-3 card-link" href="{{ path('categories_edit', {'id': category.id}) }}">Modifier</a>
+    </div>
 
-    <a class="btn btn-success mt-3 mb-3 ml-3 mr-3 card-link" href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
-
-    {{ include('categories/_delete_form.html.twig') }}
+    <a href="{{ path('categories_index') }}">Liste des catégories</a>
 {% endblock %}

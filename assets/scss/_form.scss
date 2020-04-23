@@ -1,9 +1,3 @@
-.edit-form{
-	.btn-danger{
-		margin-bottom: 2rem;
-	}
-}
-
 form{
 	.has-error{
 		ul{
@@ -14,11 +8,18 @@ form{
 			}
 		}
 	}
-}
 
-.form-style{
+	label{
+		color: $mainColor;
+	}
 
-	input,select,textarea{
+	.categorie{
+		label{
+			color: $black;
+		}
+	}
+
+	select{
 		height: calc(1.5em + .75rem + 2px);
 		padding: .375rem .75rem;
 		font-size: 1rem;
@@ -32,32 +33,12 @@ form{
 		transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	}
 
-	input[type="file"]{
-		background: none;
-		border:none;
-		padding-left: 0;
-	}
-
-	input,textarea{
-		display: block;
-		width: 100%;
-	}
-
-	textarea{
-		height: 100%;
-	}
-
-	.categories{
-		label, input{
-			display: inline-block;
-			height: inherit;
-			width: inherit;
+	.note{
+		label{
+			display: block;
 		}
 	}
 
-}
-
-.form-style-with-date{
 	.date{
 		#events_date{
 			#events_date_date,#events_date_time{

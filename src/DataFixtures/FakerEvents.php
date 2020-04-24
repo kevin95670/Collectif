@@ -28,7 +28,8 @@ class FakerEvents extends Fixture implements DependentFixtureInterface
             $event->setLimite($faker->numberBetween($min = 1, $max = 50));
             $event->setImage($faker->imageUrl($width = 640, $height = 480));
             $event->setDescription($faker->text($maxNbChars = 1000));
-            $event->setUpdatedAt(new \DateTime());
+            $event->setCreatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+            $event->setUpdatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
             $manager->persist($event);
         }
 

@@ -119,6 +119,7 @@ class EventsController extends AbstractController
             }
 
             $user->addEvent($event);
+            $event->setCreatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
             $event->setUpdatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
 
             $entityManager = $this->getDoctrine()->getManager();

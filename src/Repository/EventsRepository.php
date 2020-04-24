@@ -77,7 +77,7 @@ class EventsRepository extends ServiceEntityRepository
             ->select('e')
             ->leftJoin('e.categories', 'c')
             ->leftJoin('e.users', 'u')
-            ->orderBy('e.updated_at', 'desc')
+            ->orderBy('e.created_at', 'desc')
             ->groupBy('e.id')
             ->setMaxResults(2)
             ->getQuery()

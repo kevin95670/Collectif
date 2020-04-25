@@ -21,7 +21,7 @@ class EventsType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('date', DateTimeType::class, [
-                'date_format' => 'd MMM y',
+                'date_format' => 'd MM y',
                 'data'  => new \DateTime('now', new \DateTimeZone('Europe/Paris')),
                 'years' => range(date('Y'), date('Y')+5),
             ])

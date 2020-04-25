@@ -12,7 +12,7 @@
     	</div>
     </div>
 	<div class="form-row date">
-		<div class="form-group col-md-6 {% if not form.date.vars.valid %}has-error{% endif %}">
+		<div class="form-group col-12 {% if not form.date.vars.valid %}has-error{% endif %}">
     		{{ form_row(form.date) }}
 		</div>
 	</div>
@@ -83,5 +83,5 @@
     	</div>
     </div>
 
-    <button type="submit" class="btn btn-primary d-block mx-auto">Valider</button>
+    <button type="submit" class="btn btn-primary d-block mx-auto mb-3">Valider</button>
 {{ form_end(form) }}

@@ -76,7 +76,7 @@
                         {% endif %}
                     {% endif %}
                 </div>
-                <a href="{{ path('events') }}">Retour liste des évènements</a>
+                <a href="{{ path('events') }}" class="mt-3 d-block">Retour liste des évènements</a>
                 <div class="event-chat mt-5">
                     {% if event[0].date > date() %}
                         {% if app.user %}

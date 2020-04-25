@@ -112,3 +112,17 @@ h1,h2,h3,h4{
 	left: 50%;
 	z-index: 5;
 }
+
+@media screen and (max-width: 1024px){
+	.card-img-top{
+		height: 30vw; 
+		object-fit:cover;
+	}
+}
+
+@media screen and (max-width: 767px){
+	.card-img-top{
+		height: 50vw; 
+		object-fit:cover;
+	}
+}

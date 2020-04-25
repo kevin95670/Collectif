@@ -64,3 +64,24 @@ form{
 		}
 	}
 }
+
+@media screen and (max-width:1024px) and (min-width:992px){
+
+	form{
+		select{
+			padding: .375rem;
+		}
+	}
+
+}
+
+@media screen and (max-width: 767px){
+	form{
+		#events_date_date{
+			select{
+				margin-right: 5px;
+				margin-bottom: 5px;
+			}
+		}
+	}
+}

@@ -1,0 +1,5 @@
+<form class="d-inline-block align-bottom card-link" method="post" action="{{ path('delete_event', {'id': event_id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet évènement ?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event_id) }}">
+    <button class="btn btn-danger mt-3">Supprimer</button>
+</form>

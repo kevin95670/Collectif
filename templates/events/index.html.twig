@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evènements{% endblock %}
+
+{% block body_id 'events' %}
+
+{% block body %}
+
+    <div class="container-fluid js-filter">
+        <div class="row">
+            <div class="col-lg-3 col-sm-12">
+            {% block aside %}
+                {% include 'events/_filters.html.twig' %}
+            {% endblock %}
+            </div>
+            <div class="col-lg-9 col-sm-12">
+                <div class="js-filter-content row">
+                    {% include 'events/_events.html.twig' %}
+                </div>
+                <div class="navigation js-filter-pagination">
+                    {% include 'events/_pagination.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

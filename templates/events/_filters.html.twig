@@ -1,0 +1,54 @@
+{{ form_start(filters, {attr: {class: 'js-filter-form mb-4 mb-lg-0'}}) }}
+	
+	<h2 class="text-center mb-4">Filtres</h2>
+
+	<div class="spinner-border hide js-loading" role="status" aria-hidden="true">
+		<span class="sr-only">Chargement...</span>
+	</div>
+
+	<div class="form-row">
+		<div class="form-group col-md-9">
+    		{{ form_label(filters.query)}}
+	   		<div class="input-group">
+	   			{{ form_widget(filters.query,{'attr': {'class': 'form-control'}})}}
+	   		</div>
+	   		{{ form_errors(filters.query)}}
+    	</div>
+    </div>
+	<div class="form-row date">
+		<div class="form-group col-12">
+    		{{ form_row(filters.date) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-group col-md-9">
+    		{{ form_label(filters.city)}}
+	   		<div class="input-group">
+                <div class="input-group-prepend">
+                    <i class="input-group-text fas fa-city"></i>
+                </div>
+	   			{{ form_widget(filters.city,{'attr': {'class': 'form-control'}})}}
+	   		</div>
+	   		{{ form_errors(filters.city)}}
+    	</div>
+    </div>
+    {% if showCategoryFilter is defined and showCategoryFilter is same as(0) %}
+    	
+    {% else %}
+		<div class="form-row categories">
+			<div class="form-group col-md-9">
+				<label class="required">Catégories</label>
+			    {% for checkbox in filters.categories.children %}
+			        <div class="categorie">
+			            {{ form_widget(checkbox) }}
+			            {{ form_label(checkbox) }}
+			            {{ form_errors(checkbox) }}
+			        </div>
+			    {% endfor %}
+	    	</div>
+	    </div>
+	{% endif %}
+
+    <button type="submit" class="btn btn-primary d-block mx-auto">Filtrer</button>
+
+{{ form_end(filters) }}

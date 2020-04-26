@@ -1,0 +1,35 @@
+header{
+	background: $white;
+
+	a.navbar-brand{
+		padding: 0;
+	}
+
+	.logo{
+		width: 100px;
+	}
+
+	&::after{
+		content: '';
+		height: 5rem;
+		background: $mainColor;
+		position: absolute;
+		left: 0;
+		width: 100%;
+	}
+
+	& .navbar-light .navbar-nav .active > .nav-link{
+		color: $mainColor;
+		opacity: 1;
+	}
+
+	& .navbar-light .navbar-nav .nav-link{
+		color: $mainColor;
+		opacity: .6;
+
+		&:hover, &:visited{
+			opacity: 1;
+			color: $mainColor;
+		}
+	}
+}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Surname</th>
+                <td>{{ user.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ user.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ user.phone }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-block text-center">
+        <a class="btn btn-success mt-3 mb-3 ml-3 mr-3 card-link" href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
+
+    <a href="{{ path('user_index') }}">Liste des utilisateurs</a>
+{% endblock %}

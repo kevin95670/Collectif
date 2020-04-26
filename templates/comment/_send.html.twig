@@ -1,0 +1,13 @@
+<form class="form-style d-inline-block align-bottom card-link w-100" method="post" action="{{ path('send_comment', {'id': event_id}) }}">
+	<div class="form-row">
+		<div class="form-group col-md-12">
+    		{{ form_label(form.comment)}}
+            <div class="input-group">
+                {{ form_widget(form.comment,{'attr': {'class': 'form-control'}})}}
+            </div>
+            {{ form_errors(form.comment)}}
+            </div>
+    	</div>
+    </div>
+    <button type="submit" class="btn btn-primary d-block mx-auto">Envoyer un message</button>
+</form>

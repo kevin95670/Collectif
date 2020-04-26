@@ -1,0 +1,18 @@
+<form class=" form-style d-inline-block align-bottom card-link w-100" method="post" action="{{ path('send_review', {'id': event_id}) }}">
+	<div class="form-row note">
+		<div class="form-group col-md-6">
+    		{{ form_row(formReview.note) }}
+    	</div>
+    </div>
+	<div class="form-row">
+		<div class="form-group col-md-12">
+            {{ form_label(formReview.comment)}}
+            <div class="input-group">
+                {{ form_widget(formReview.comment,{'attr': {'class': 'form-control'}})}}
+            </div>
+            {{ form_errors(formReview.comment)}}
+            </div>
+    	</div>
+    </div>
+    <button type="submit" class="btn btn-primary d-block mx-auto">Envoyer une appréciation</button>
+</form>

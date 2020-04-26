@@ -1,0 +1,87 @@
+form{
+	.has-error{
+		ul{
+			list-style: none;
+			padding-left: 0;
+			li{
+				color: red;
+			}
+		}
+	}
+
+	label{
+		color: $mainColor;
+	}
+
+	.categorie{
+		label{
+			color: $black;
+		}
+	}
+
+	select{
+		height: calc(1.5em + .75rem + 2px);
+		padding: .375rem .75rem;
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.5;
+		color:#495057;
+		background-color:#fff;
+		background-clip: padding-box;
+		border: 1px solid#ced4da;
+		border-radius: .25rem;
+		transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	}
+
+	.note{
+		label{
+			display: block;
+		}
+	}
+
+	.date{
+		#events_date{
+			#events_date_date,#events_date_time{
+				display: inline-block;
+			}
+
+			#events_date_date{
+				margin-right: 10px;
+			}
+
+			#events_date_time{
+				select{
+					margin-right: 5px;
+					margin-left: 5px;
+					&:first-child{
+						margin-left: 0;
+					}
+					&:last-child{
+						margin-right: 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width:1024px) and (min-width:992px){
+
+	form{
+		select{
+			padding: .375rem;
+		}
+	}
+
+}
+
+@media screen and (max-width: 767px){
+	form{
+		#events_date_date{
+			select{
+				margin-right: 5px;
+				margin-bottom: 5px;
+			}
+		}
+	}
+}

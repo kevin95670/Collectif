@@ -1,0 +1,5 @@
+<form class="d-inline-block align-bottom card-link" method="post" action="{{ path('delete_review', {'id': review_id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ review_id) }}">
+    <button class="btn btn-danger ml-3 mt-3">Supprimer</button>
+</form>

@@ -9,6 +9,16 @@
 import '../scss/app.scss';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// const $ = require('jquery');
+const $ = require('jquery');
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+//console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+import Filter from './modules/filter.js';
+
+new Filter(document.querySelector('.js-filter'));
+
+
+$(document).ready(function() {
+  	$('li.active').removeClass('active');
+  	$('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+});

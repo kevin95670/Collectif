@@ -1,5 +1,149 @@
-$mainColor : #555;
+@import '_reset.scss';
+@import '_fonts.scss';
+@import '_colors.scss';
+@import '_header.scss';
+@import '_common.scss';
+@import '_form.scss';
+@import '_review.scss';
+@import '_footer.scss';
+@import '_filters.scss';
 
-body {
-    background-color: $mainColor;
+/* Index */
+
+.index-intro{
+	border: 1px solid #ddd;
+	-webkit-box-shadow: 0px 1px 15px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 1px 15px 0px rgba(0, 0, 0, 0.1);
+	background: $white;
+	padding: 3rem;
+	border-radius: 5px;
+}
+
+.index-connexion{
+	&:hover{
+		text-decoration: underline;
+		color: $mainColorAlt;
+	}
+}
+
+.index-categories{
+	padding: 0;
+	list-style: none;
+	& li {
+		& a{
+			padding: 30px 5px;
+			color: $white;
+		}
+	}
+}
+
+#index{
+
+	.index-categories-item{
+		background: $colorGray;
+		border-radius: 0;
+		position: relative;
+		display: block;
+		text-decoration: none;
+		padding: 3.5rem 3.5rem 2.5rem;
+		z-index: 1;
+		overflow: hidden;
+
+		.number-category-event,.category-event{
+			display: block;
+		}
+
+		.number-category-event{
+			color: $mainColor;
+			font-size: 2rem;
+		}
+
+		.category-event{
+			color: $black;
+			font-size: 1.2rem;
+			&::after{
+		    	content: '';
+		    	display: block;
+		    	height: .25rem;
+		    	width: 1rem;
+		    	margin: .5rem auto;
+		    	background: $mainColor;
+			}
+		}
+
+		&:hover{
+			.category-event{
+				color: $white;
+				&::after{
+					background: $secondColor;
+				}
+			}
+
+			.number-category-event{
+				color: $secondColor;
+			}
+		}
+
+		&:hover::before{
+			-webkit-transform: translateY(0);
+			transform: translateY(0);
+		}
+
+		&::before{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 1rem;
+			width: 100%;
+			background: $secondColor;
+			z-index: -1;
+			transition: .3s ease;
+			-webkit-transform: translateY(-1rem);
+			transform: translateY(-1rem);
+		}
+
+		&:hover::after{
+			-webkit-transform: translateY(0);
+			transform: translateY(0);
+		}
+
+		&::after{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			background: $mainColor;
+			z-index: -2;
+			transition: .3s ease;
+			-webkit-transform: translateY(100%);
+			transform: translateY(100%);
+		}
+	}
+}
+
+/* Show event */
+
+.no-rate{
+	text-align: center;
+	font-size: 20px;
+}
+
+.rate-average{
+	text-align: center;
+
+	img{
+		width: 25px;
+		height: auto;
+	}
+}
+
+/* Connexion */
+
+.form-wrapper{
+	background: $white;
+	border: 1px solid $white;
+	border-radius: 10px;
 }

@@ -83,18 +83,22 @@
                             {% include('comment/_send.html.twig') with {'event_id': event[0].id} %}
                         {% endif %}
                         <div class="comments mt-5">
-                            <h3 class="my-4 text-center">Commentaires </h3>
-                            {% for comment in comments %}
-                            <div class="comment mt-2 mb-3">
-                                <p>{{comment.comment}}</p>
-                                <em>Publié par : {{comment.getUser().firstname ~ ' ' ~ comment.getUser().lastname}}, le {{comment.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
-                                {% if app.user %}
-                                    {% if comment.getUser().id == app.user.id %}
-                                        {% include('comment/_delete_form.html.twig') with {'comment_id': comment.id} %}
+                            <h3 class="my-4 text-center">Commentaires</h3>
+                            {% if not comments is empty %}
+                                {% for comment in comments %}
+                                <div class="comment mt-2 mb-3">
+                                    <p>{{comment.comment}}</p>
+                                    <em>Publié par : {{comment.getUser().firstname ~ ' ' ~ comment.getUser().lastname}}, le {{comment.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
+                                    {% if app.user %}
+                                        {% if comment.getUser().id == app.user.id %}
+                                            {% include('comment/_delete_form.html.twig') with {'comment_id': comment.id} %}
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
-                            </div>
-                            {% endfor %}
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="alert alert-info">Aucun commentaire</p>
+                            {% endif %}
                         </div>
                     {% else %}
                         {% if participe == 1 %}
@@ -102,23 +106,27 @@
                         {% endif %}
 
                         <div class="reviews mt-5">
-                            <h3 class="my-4 text-center">Notation </h3>
-                            {% for review in reviews %}
-                            <div class="review mt-2 mb-3">
-                                <p>
-                                {% for note in 1..review.note %}
-                                    <img class="img-fluid rate" src="{{ asset('images/star.png') }}" alt="Note"/>
-                                {% endfor %}
-                                </p>
-                                <p>{{review.comment}}</p>
-                                <em>Publié par : {{review.getUser().firstname ~ ' ' ~ review.getUser().lastname}}, le {{review.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
-                                {% if app.user %}
-                                    {% if review.getUser().id == app.user.id %}
-                                        {% include('review/_delete_form.html.twig') with {'review_id': review.id} %}
+                            <h3 class="my-4 text-center">Notation</h3>
+                            {% if not reviews is empty %}
+                                {% for review in reviews %}
+                                <div class="review mt-2 mb-3">
+                                    <p>
+                                    {% for note in 1..review.note %}
+                                        <img class="img-fluid rate" src="{{ asset('images/star.png') }}" alt="Note"/>
+                                    {% endfor %}
+                                    </p>
+                                    <p>{{review.comment}}</p>
+                                    <em>Publié par : {{review.getUser().firstname ~ ' ' ~ review.getUser().lastname}}, le {{review.getCreatedAt()|date("d/m/Y \\à H:i:s")}}
+                                    {% if app.user %}
+                                        {% if review.getUser().id == app.user.id %}
+                                            {% include('review/_delete_form.html.twig') with {'review_id': review.id} %}
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
-                            </div>
-                            {% endfor %}
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="alert alert-info">Aucun avis</p>
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>

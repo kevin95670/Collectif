@@ -30,7 +30,8 @@
                         </p>
                     {% endif %}
                 {% endif %}
-                <p>Proposé par : <a href="{{ path('user_show', {id: event[0].creator.id})}}">{{event[0].creator.firstname}} {{event[0].creator.lastname}}</a></p>
+                {# <p>Proposé par : <a href="{{ path('user_show', {id: event[0].creator.id})}}">{{event[0].creator.firstname}} {{event[0].creator.lastname}}</a></p>#}
+		<p>Proposé par : {{event[0].creator.firstname}} {{event[0].creator.lastname}}</p>
                 <p>Date : {{event[0].date|date("d-m-y")}} à {{event[0].date|date("H:i:s")}}</p>
                 <p>Participant : {{event[0].getUsers()|length}} / {{event[0].limite}}</p>
                 <p>Ville : {{event[0].city}}</p>
@@ -44,13 +45,15 @@
                     <a href="{{ path('events_category', {category: categorie.name})}}">{{categorie.name}}</a>
                 {% endfor %}
                 </p>
-                <p>Liste des participants :
+                <p class="d-inline-block mr-2">Liste des participants :
                 {% for user in event[0].getUsers() %}
-                    {% if loop.last %}
-                        <a href="{{ path('user_show', {id: user.id})}}">{{user.firstname ~ ' ' ~ user.lastname}}</a>
-                    {% else %}
-                        <a href="{{ path('user_show', {id: user.id})}}">{{user.firstname ~ ' ' ~ user.lastname}},</a>
-                    {% endif %}
+			{% if loop.last %}
+                        	{#<a href="{{ path('user_show', {id: user.id})}}">{{user.firstname ~ ' ' ~ user.lastname}}</a>#}
+				<p class="d-inline-block">{{user.firstname ~ ' ' ~ user.lastname}}</p>
+			{% else %}
+                        	{#<a href="{{ path('user_show', {id: user.id})}}">{{user.firstname ~ ' ' ~ user.lastname}},</a>#}
+				<p class="d-inline-block">{{user.firstname ~ ' ' ~ user.lastname ~ ', '}}</p>
+                    	{% endif %}
                 {% endfor %}
                 </p>
                 <p>{{event[0].description}}</p>

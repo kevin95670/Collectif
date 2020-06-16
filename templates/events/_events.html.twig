@@ -6,7 +6,8 @@
         {% endif %}
         <div class="card-body">
             <h2 class="card-title text-center">{{event.name|capitalize}}</h2>
-            <p>Proposé par : <a href="{{ path('user_show', {id: event.creator.id})}}">{{event.creator.firstname}} {{event.creator.lastname}}</a></p>
+            {#<p>Proposé par : <a href="{{ path('user_show', {id: event.creator.id})}}">{{event.creator.firstname}} {{event.creator.lastname}}</a></p>#}
+	    <p> Proposé par : {{event.creator.firstname}} {{event.creator.lastname}} </p>
             <p class="card-text">Date : {{event.date|date("d/m/Y")}} à {{event.date|date("H:i:s")}}</p>
             <p class="card-text">Participant : {{event.getUsers()|length}} / {{event.limite}}</p>
             <p class="card-text">Ville : {{event.city}}</p>

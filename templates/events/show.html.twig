@@ -11,7 +11,7 @@
             <div class="col-sm-12">
                 {% if event[0].image is not null %}
                     <div class="img-event text-center">
-                        <img class="img-fluid" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" />
+                        <img class="img-fluid" src="{{vich_uploader_asset(event[0], 'imageFile')}}" alt="évènement-{{event[0].id}}" loading="lazy"/>
                     </div>
                 {% endif %}
                 <h1 class="mb-3 mt-3 text-center">{{event[0].name}}</h1>

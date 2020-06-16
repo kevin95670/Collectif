@@ -2,7 +2,7 @@
 <div class="col-md-6 col-12 {% if event.date < date() %}event-finished{% endif %}" id="event-{{event.id}}">
     <div class="card mb-3">
         {% if event.image is not null %}
-                <img class="card-img-top" src="{{vich_uploader_asset(event, 'imageFile')}}" alt="évènement-{{event.id}}" />
+                <img class="card-img-top" src="{{vich_uploader_asset(event, 'imageFile')}}" alt="évènement-{{event.id}}" loading="lazy"/>
         {% endif %}
         <div class="card-body">
             <h2 class="card-title text-center">{{event.name|capitalize}}</h2>

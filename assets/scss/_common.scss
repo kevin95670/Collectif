@@ -49,6 +49,11 @@ h1,h2,h3,h4{
 	display: none;
 }
 
+.pagination{
+	justify-content:center;
+	margin-top: 10px;
+}
+
 .align-center{
 	align-items: center;
 }
@@ -124,5 +129,17 @@ h1,h2,h3,h4{
 	.card-img-top{
 		height: 50vw; 
 		object-fit:cover;
+	}
+	form.js-filter-form{
+		padding: 20px 15px;
+	}
+}
+
+@media screen and (min-width: 767px) and (max-width: 1024px){
+	#index
+	{
+		a.index-categories-item{
+			padding: 2.5rem 2.5rem 2.5rem;
+		}
 	}
 }

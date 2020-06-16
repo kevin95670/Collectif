@@ -1,5 +1,5 @@
 {% for event in events %}
-<div class="col-sm-6 col-xs-12 {% if event.date < date() %}event-finished{% endif %}" id="event-{{event.id}}">
+<div class="col-md-6 col-12 {% if event.date < date() %}event-finished{% endif %}" id="event-{{event.id}}">
     <div class="card mb-3">
         {% if event.image is not null %}
                 <img class="card-img-top" src="{{vich_uploader_asset(event, 'imageFile')}}" alt="évènement-{{event.id}}" />

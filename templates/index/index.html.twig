@@ -23,7 +23,7 @@
 		<h2 class="text-center mb-4">{{nbEvent}} évènements ont déjà été crée !</h2>
 		<ul class="index-categories row">
 		{% for item in nbEventByCategory %}
-			<div class="col-sm-4 col-xs-6">
+			<div class="col-md-4 col-sm-6">
 			<li class="mb-4"><a class="w-100 btn index-categories-item" href="{{ path('events_category', {category: item.name})}}"><span class="number-category-event">{{item.number}}</span><span class="category-event">{{item.name}}</span></a></li>
 			</div>
 		{% endfor %}

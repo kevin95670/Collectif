@@ -1,45 +1,49 @@
-{% for event in events %}
-<div class="col-md-6 col-12 {% if event.date < date() %}event-finished{% endif %}" id="event-{{event.id}}">
-    <div class="card mb-3">
-        {% if event.image is not null %}
-                <img class="card-img-top" src="{{vich_uploader_asset(event, 'imageFile')}}" alt="évènement-{{event.id}}" loading="lazy"/>
-        {% endif %}
-        <div class="card-body">
-            <h2 class="card-title text-center">{{event.name|capitalize}}</h2>
-            {#<p>Proposé par : <a href="{{ path('user_show', {id: event.creator.id})}}">{{event.creator.firstname}} {{event.creator.lastname}}</a></p>#}
-	    <p> Proposé par : {{event.creator.firstname}} {{event.creator.lastname}} </p>
-            <p class="card-text">Date : {{event.date|date("d/m/Y")}} à {{event.date|date("H:i:s")}}</p>
-            <p class="card-text">Participant : {{event.getUsers()|length}} / {{event.limite}}</p>
-            <p class="card-text">Ville : {{event.city}}</p>
-            <p class="card-text">Adresse : {{event.address}}</p>
-            {% if event.getCategories()|length <= 1 %}
-                <p class="card-text">Catégorie : 
-            {% else %}
-                <p class="card-text">Catégories : 
+{% if events is empty %}
+    <p class="alert alert-info w-100">Vous n'avez encore rejoint aucun évènement</p>
+{% else %}
+    {% for event in events %}
+    <div class="col-md-6 col-12 {% if event.date < date() %}event-finished{% endif %}" id="event-{{event.id}}">
+        <div class="card mb-3">
+            {% if event.image is not null %}
+                    <img class="card-img-top" src="{{vich_uploader_asset(event, 'imageFile')}}" alt="évènement-{{event.id}}" loading="lazy"/>
             {% endif %}
-            {% for categorie in event.getCategories() %}
-                <a href="{{ path('events_category', {category: categorie.name})}}">{{categorie.name}}</a>
-            {% endfor %}
-                </p>
-            {#% if event.participant  != event.limite%}
-                <a href="#">Rejoindre cet évènement</a>
-            {% endif %}#}
-            <div class="text-center">
-                {% if event.date < date() %}
-                    <p class="text-danger">Evenement terminé !</p>
-                    <a class="btn btn-color-alt mr-3 card-link" href="{{ path('show_event', {'id': event.id}) }}">Voir l'évaluation</a>
+            <div class="card-body">
+                <h2 class="card-title text-center">{{event.name|capitalize}}</h2>
+                {#<p>Proposé par : <a href="{{ path('user_show', {id: event.creator.id})}}">{{event.creator.firstname}} {{event.creator.lastname}}</a></p>#}
+    	    <p> Proposé par : {{event.creator.firstname}} {{event.creator.lastname}} </p>
+                <p class="card-text">Date : {{event.date|date("d/m/Y")}} à {{event.date|date("H:i:s")}}</p>
+                <p class="card-text">Participant : {{event.getUsers()|length}} / {{event.limite}}</p>
+                <p class="card-text">Ville : {{event.city}}</p>
+                <p class="card-text">Adresse : {{event.address}}</p>
+                {% if event.getCategories()|length <= 1 %}
+                    <p class="card-text">Catégorie : 
                 {% else %}
-                    <a class="btn btn-color-alt mr-3 card-link" href="{{ path('show_event', {'id': event.id}) }}">Voir</a>
-                    {# {% if app.user.id is defined %}
-                        {% if event.creator.id == app.user.id %}
-                            <a class="btn btn-success mr-3 card-link" href="{{ path('edit_event', {'id': event.id}) }}">Modifier</a>
-                            {% include('events/_delete_form.html.twig') with {'event_id': event.id} %}
-                        {% endif %}
-                    {% endif %}#}
+                    <p class="card-text">Catégories : 
                 {% endif %}
-                {# <a href="{{ path('new_event') }}">Create new</a>#}
+                {% for categorie in event.getCategories() %}
+                    <a href="{{ path('events_category', {category: categorie.name})}}">{{categorie.name}}</a>
+                {% endfor %}
+                    </p>
+                {#% if event.participant  != event.limite%}
+                    <a href="#">Rejoindre cet évènement</a>
+                {% endif %}#}
+                <div class="text-center">
+                    {% if event.date < date() %}
+                        <p class="text-danger">Evenement terminé !</p>
+                        <a class="btn btn-color-alt mr-3 card-link" href="{{ path('show_event', {'id': event.id}) }}">Voir l'évaluation</a>
+                    {% else %}
+                        <a class="btn btn-color-alt mr-3 card-link" href="{{ path('show_event', {'id': event.id}) }}">Voir</a>
+                        {# {% if app.user.id is defined %}
+                            {% if event.creator.id == app.user.id %}
+                                <a class="btn btn-success mr-3 card-link" href="{{ path('edit_event', {'id': event.id}) }}">Modifier</a>
+                                {% include('events/_delete_form.html.twig') with {'event_id': event.id} %}
+                            {% endif %}
+                        {% endif %}#}
+                    {% endif %}
+                    {# <a href="{{ path('new_event') }}">Create new</a>#}
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}
+{% endif %}

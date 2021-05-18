@@ -29,6 +29,9 @@
     "doctrine/dbal": {
         "version": "v2.9.3"
     },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "doctrine/doctrine-bundle": {
         "version": "1.6",
         "recipe": {
@@ -93,6 +96,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "doctrine/sql-formatter": {
+        "version": "1.1.1"
+    },
     "easycorp/easy-log-handler": {
         "version": "1.0",
         "recipe": {
@@ -111,6 +117,9 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
+    },
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
@@ -125,6 +134,15 @@
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v5.1.1"
+    },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.3.1"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.2.0"
     },
     "monolog/monolog": {
         "version": "1.25.1"
@@ -229,6 +247,9 @@
     "symfony/dependency-injection": {
         "version": "v4.3.6"
     },
+    "symfony/deprecation-contracts": {
+        "version": "v2.4.0"
+    },
     "symfony/doctrine-bridge": {
         "version": "v4.3.6"
     },
@@ -237,6 +258,9 @@
     },
     "symfony/dotenv": {
         "version": "v4.3.6"
+    },
+    "symfony/error-handler": {
+        "version": "v4.4.23"
     },
     "symfony/event-dispatcher": {
         "version": "v4.3.6"
@@ -356,11 +380,17 @@
             "./tests/.gitignore"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.22.1"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.12.0"
     },
     "symfony/polyfill-intl-idn": {
         "version": "v1.12.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.22.1"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.12.0"
@@ -370,6 +400,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.12.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.22.1"
     },
     "symfony/process": {
         "version": "v4.3.6"
@@ -382,6 +415,9 @@
     },
     "symfony/property-info": {
         "version": "v4.3.6"
+    },
+    "symfony/proxy-manager-bridge": {
+        "version": "v4.4.20"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -432,6 +468,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.3.6"
+    },
+    "symfony/string": {
+        "version": "v5.2.8"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",

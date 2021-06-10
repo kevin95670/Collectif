@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+/* Moteur de recherche des évènements */
 class SearchData{
 
 	/**
